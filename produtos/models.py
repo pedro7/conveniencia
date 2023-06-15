@@ -3,5 +3,5 @@ from django.db import models
 
 class Produto(models.Model):
     nome = models.CharField(max_length=100)
-    #codigo_barras
-    #preco
+    codigo_barras = models.CharField(max_length=50)
+    preco = models.DecimalField(max_digits=5, decimal_places=2)
