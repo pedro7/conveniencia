@@ -4,5 +4,5 @@ from django.shortcuts import render
 
 
 @login_required
-def index(request: HttpRequest):
-    return HttpResponse('colaboradores index')
+def colaboradores(request: HttpRequest):
+    return render(request, 'colaboradores.html')

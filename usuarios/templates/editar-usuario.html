@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+</head>
+<body>
+    <form method="post" action="{% url 'editar_usuario' usuario.username %}">
+        {% csrf_token %}
+        <input type="text" value="{{ usuario.username }}" name="nome_usuario" placeholder="Nome de Usuário">
+        <input type="email" value="{{ usuario.email }}" name="email" placeholder="Email">
+        <input type="text" value="{{ usuario.first_name }}" name="nome" placeholder="Nome">
+        <input type="text" value="{{ usuario.last_name }}" name="sobrenome" placeholder="Sobrenome">
+        <input type="password" name="senha" placeholder="Senha">
+        <input type="submit" value="Editar">
+        <a href="{% url 'usuarios' %}">Cancelar</a>
+    </form>
+</body>
+</html>

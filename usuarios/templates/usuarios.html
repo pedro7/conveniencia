@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuários</title>
+</head>
+<body>
+  <a href="{% url 'painel' %}">Painel</a>
+  <a href="{% url 'colaboradores' %}">Colaboradores</a>
+  <a href="{% url 'produtos' %}">Produtos</a>
+  <a href="{% url 'usuarios' %}">Usuários</a>
+  <a href="{% url 'sair' %}">Sair</a>
+  <form method="post" action="{% url 'cadastrar_usuario' %}">
+    {% csrf_token %}
+    <input type="text" name="nome_usuario" placeholder="Nome de Usuário">
+    <input type="email" name="email" placeholder="Email">
+    <input type="text" name="nome" placeholder="Nome">
+    <input type="text" name="sobrenome" placeholder="Sobrenome">
+    <input type="password" name="senha" placeholder="Senha">
+    <input type="submit" value="Cadastrar">
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome de Usuário</th>
+        <th>Email</th>
+        <th>Nome</th>
+        <th>Administrador</th>
+        <th>Último Login</th>
+        <th>Data de Ingresso</th>
+        <th>Editar</th>
+        <th>Excluir</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for usuario in usuarios %}
+        <tr>
+          <td>{{ usuario.username }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+          <td>{{ usuario.is_superuser }}</td>
+          <td>{{ usuario.last_login }}</td>
+          <td>{{ usuario.date_joined }}</td>
+          <td>
+            <form method="get" action="{% url 'editar_usuario' usuario.username %}">
+              {% csrf_token %}
+              <input type="submit" value="Editar">
+            </form>
+          </td>
+          <td>
+            <form method="post" action="{% url 'excluir_usuario' usuario.username %}">
+              {% csrf_token %}
+              <input type="submit" value="Excluir">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      
+    </tfoot>
+  </table>
+</body>
+</html>
