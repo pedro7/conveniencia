@@ -9,6 +9,9 @@
 <body>
     <a href="{% url 'colaboradores' %}">Colaboradores</a>
     <a href="{% url 'produtos' %}">Produtos</a>
+    {% if request.user.is_superuser %}
+        <a href="{% url 'usuarios' %}">Usuários</a>
+    {% endif %}
     <a href="{% url 'sair' %}">Sair</a>
 </body>
 </html>

@@ -7,7 +7,7 @@ class Colaborador(models.Model):
         ('inativo', 'Inativo')
     ]
     nome = models.CharField(max_length=100)
-    cpf = models.CharField(max_length=14)
-    login = models.CharField(max_length=32)
+    cpf = models.CharField(max_length=11)
+    login = models.CharField(max_length=32, unique=True)
     senha = models.CharField(max_length=128)
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
