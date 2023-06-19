@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colaboradores</title>
-</head>
-<body>
-    <a href="{% url 'painel' %}">Painel</a>
-    <a href="{% url 'colaboradores' %}">Colaboradores</a>
-    <a href="{% url 'produtos' %}">Produtos</a>
-    <a href="{% url 'sair' %}">Sair</a>
+{% extends 'base.html' %}
+
+{% block title %}Colaboradores{% endblock %}
+
+{% block main %}
     <form method="post" action="{% url 'cadastrar_colaborador' %}">
         {% csrf_token %}
         <input type="text" name="nome" placeholder="Nome" required>
@@ -28,7 +20,7 @@
                 <th>Senha</th>
                 <th>Situação</th>
                 <th>Editar</th>
-                <th>Excluir</th>
+                <th>Ativar/Inativar</th>
             </tr>
         </thead>
         <tbody>
@@ -45,12 +37,21 @@
                             <input type="submit" value="Editar">
                         </form>
                     </td>
-                    <td>
-                        <form method="post" action="{% url 'excluir_colaborador' colaborador.login %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Excluir">
-                        </form>
-                    </td>
+                    {% if colaborador.situacao == 'ativo' %}
+                        <td>
+                            <form method="post" action="{% url 'inativar_colaborador' colaborador.login %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Inativar">
+                            </form>
+                        </td>
+                    {% elif colaborador.situacao == 'inativo' %}
+                        <td>
+                            <form method="post" action="{% url 'ativar_colaborador' colaborador.login %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Ativar">
+                            </form>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
@@ -58,5 +59,4 @@
 
         </tfoot>
     </table>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Compras{% endblock %}
+
+{% block main %}
+    <form method="post" action="{% url 'adicionar_produto' %}">
+        {% csrf_token %}
+        <input type="text" name="codigo_barras" maxlength="13" placeholder="Código de Barras">
+        <input type="submit" value="Adicionar no Carrinho">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Remover</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in carrinho %}
+                <tr>
+                    <td>{{ produto.nome }}</td>
+                    <td>{{ produto.preco }}</td>
+                    <td>
+                        <form method="post" action="{% url 'remover_produto' produto.codigo_barras %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Remover">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        {% if total > 0 %}
+            <tfoot>
+                <tr>
+                    <td>Total: {{ total }}</td>
+                </tr>
+            </tfoot>
+        {% endif %}
+    </table>
+    <form method="post" action="{% url 'limpar_carrinho' %}">
+        {% csrf_token %}
+        <input type="submit" value="Limpar">
+    </form>
+    <form>
+        {% csrf_token %}
+        <input type="submit" value="Finalizar">
+    </form>
+{% endblock %}

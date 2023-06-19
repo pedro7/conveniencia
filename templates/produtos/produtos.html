@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
-</head>
-<body>
-    <a href="{% url 'painel' %}">Painel</a>
-    <a href="{% url 'colaboradores' %}">Colaboradores</a>
-    <a href="{% url 'produtos' %}">Produtos</a>
-    <a href="{% url 'sair' %}">Sair</a>
+{% extends 'base.html' %}
+
+{% block title %}Produtos{% endblock %}
+
+{% block main %}
     <form method="post" action="{% url 'cadastrar_produto' %}">
         {% csrf_token %}
         <input type="text" name="nome" placeholder="Nome">
@@ -53,5 +45,4 @@
 
         </tfoot>
     </table>
-</body>
-</html>
+{% endblock %}

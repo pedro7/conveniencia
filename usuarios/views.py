@@ -10,13 +10,13 @@ from django.shortcuts import redirect, render
 def usuarios(request: HttpRequest):
     if request.user.is_superuser:
         usuarios = User.objects.all()
-        return render(request, 'usuarios.html', {'usuarios': usuarios})
+        return render(request, 'usuarios/usuarios.html', {'usuarios': usuarios})
     else:
         return HttpResponse('permissão insufciente')
 
 def entrar(request: HttpRequest):
     if request.method == 'GET':
-        return render(request, 'entrar.html')
+        return render(request, 'usuarios/entrar.html')
     elif request.method == 'POST':
         nome_usuario = request.POST['nome_usuario']
         senha = request.POST['senha']
@@ -46,7 +46,7 @@ def editar_usuario(request: HttpRequest, nome_usuario):
     if request.user.is_superuser:
         usuario = User.objects.get(username=nome_usuario)
         if request.method == 'GET':
-            return render(request, 'editar-usuario.html', {'usuario': usuario})
+            return render(request, 'usuarios/editar-usuario.html', {'usuario': usuario})
         elif request.method == 'POST':
             usuario.username = request.POST['nome_usuario']
             usuario.email = request.POST['email']

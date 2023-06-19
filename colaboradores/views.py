@@ -8,7 +8,7 @@ from .models import Colaborador
 def colaboradores(request: HttpRequest):
     if request.method == 'GET':
         colaboradores = Colaborador.objects.all()
-        return render(request, 'colaboradores.html', {'colaboradores': colaboradores})
+        return render(request, 'colaboradores/colaboradores.html', {'colaboradores': colaboradores})
 
 @login_required
 def cadastrar_colaborador(request: HttpRequest):
@@ -24,7 +24,7 @@ def cadastrar_colaborador(request: HttpRequest):
 def editar_colaborador(request: HttpRequest, login):
     colaborador = Colaborador.objects.get(login=login)
     if request.method == 'GET':
-        return render(request, 'editar-colaborador.html', {'colaborador': colaborador})
+        return render(request, 'colaboradores/editar-colaborador.html', {'colaborador': colaborador})
     elif request.method == 'POST':
         colaborador.nome = request.POST['nome']
         colaborador.cpf = request.POST['cpf']
@@ -32,9 +32,19 @@ def editar_colaborador(request: HttpRequest, login):
         colaborador.senha = request.POST['senha']
         colaborador.save()
         return redirect('colaboradores')
+    
+@login_required
+def ativar_colaborador(request: HttpRequest, login):
+    if request.method == 'POST':
+        colaborador = Colaborador.objects.get(login=login)
+        colaborador.situacao = 'ativo'
+        colaborador.save()
+        return redirect('colaboradores')
 
 @login_required
-def excluir_colaborador(request: HttpRequest, login):
+def inativar_colaborador(request: HttpRequest, login):
     if request.method == 'POST':
-        Colaborador.objects.get(login=login).delete()
+        colaborador = Colaborador.objects.get(login=login)
+        colaborador.situacao = 'inativo'
+        colaborador.save()
         return redirect('colaboradores')

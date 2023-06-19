@@ -5,4 +5,4 @@ from django.shortcuts import render
 
 @login_required
 def painel(request: HttpRequest):
-    return render(request, 'painel.html')
+    return render(request, 'painel/painel.html')

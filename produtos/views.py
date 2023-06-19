@@ -8,7 +8,7 @@ from .models import Produto
 def produtos(request: HttpRequest):
     if request.method == 'GET':
         produtos = Produto.objects.all()
-        return render(request, 'produtos.html', {'produtos': produtos})
+        return render(request, 'produtos/produtos.html', {'produtos': produtos})
 
 @login_required
 def cadastrar_produto(request: HttpRequest):
@@ -23,7 +23,7 @@ def cadastrar_produto(request: HttpRequest):
 def editar_produto(request: HttpRequest, id):
     produto = Produto.objects.get(id=id)
     if request.method == 'GET':
-        return render(request, 'editar-produto.html', {'produto': produto})
+        return render(request, 'produtos/editar-produto.html', {'produto': produto})
     elif request.method == 'POST':
         produto.nome = request.POST['nome']
         produto.codigo_barras = request.POST['codigo_barras']
