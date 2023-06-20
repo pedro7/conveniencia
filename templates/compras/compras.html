@@ -42,8 +42,10 @@
         {% csrf_token %}
         <input type="submit" value="Limpar">
     </form>
-    <form>
+    <form method="post" action="{% url 'finalizar' %}">
         {% csrf_token %}
+        <input type="text" name="login" placeholder="Login">
+        <input type="password" name="senha" placeholder="Senha">
         <input type="submit" value="Finalizar">
     </form>
 {% endblock %}
