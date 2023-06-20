@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Colaboradores{% endblock %}
+
+{% block main %}
+    <form method="post" action="{% url 'cadastrar_colaborador' %}">
+        {% csrf_token %}
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="cpf" placeholder="CPF" required>
+        <input type="text" name="login" placeholder="Login" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <input type="submit" value="Cadastrar">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Login</th>
+                <th>Senha</th>
+                <th>Situação</th>
+                <th>Editar</th>
+                <th>Ativar/Inativar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for colaborador in colaboradores %}
+                <tr>
+                    <td>{{ colaborador.nome }}</td>
+                    <td>{{ colaborador.cpf }}</td>
+                    <td>{{ colaborador.login }}</td>
+                    <td>{{ colaborador.senha }}</td>
+                    <td>{{ colaborador.situacao }}</td>
+                    <td>
+                        <form method="get" action="{% url 'editar_colaborador' colaborador.login %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Editar">
+                        </form>
+                    </td>
+                    {% if colaborador.situacao == 'ativo' %}
+                        <td>
+                            <form method="post" action="{% url 'inativar_colaborador' colaborador.login %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Inativar">
+                            </form>
+                        </td>
+                    {% elif colaborador.situacao == 'inativo' %}
+                        <td>
+                            <form method="post" action="{% url 'ativar_colaborador' colaborador.login %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Ativar">
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+{% endblock %}

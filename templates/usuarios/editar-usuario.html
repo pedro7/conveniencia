@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Usuário{% endblock %}
+
+{% block main %}
+    <form method="post" action="{% url 'editar_usuario' usuario.username %}">
+        {% csrf_token %}
+        <input type="text" value="{{ usuario.username }}" name="nome_usuario" placeholder="Nome de Usuário">
+        <input type="email" value="{{ usuario.email }}" name="email" placeholder="Email">
+        <input type="text" value="{{ usuario.first_name }}" name="nome" placeholder="Nome">
+        <input type="text" value="{{ usuario.last_name }}" name="sobrenome" placeholder="Sobrenome">
+        <input type="password" name="senha" placeholder="Senha">
+        <input type="submit" value="Editar">
+        <a href="{% url 'usuarios' %}">Cancelar</a>
+    </form>
+{% endblock %}
