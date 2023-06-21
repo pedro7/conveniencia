@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from produtos.models import Produto
 from colaboradores.models import Colaborador
 from compras.models import Compra
+from collections import Counter
 
 
 carrinho: list[Produto] = []
@@ -38,7 +39,10 @@ def finalizar(request: HttpRequest):
         login = request.POST['login']
         senha = request.POST['senha']
         colaborador = Colaborador.objects.get(login=login)
+        counter = Counter(carrinho)
         compra = Compra.objects.create(colaborador=colaborador)
-        compra.produtos.set(carrinho)
+        for produto, quantidade in counter.items():
+            compra.produtos.add(produto, through_defaults={'quantidade': quantidade})
+        #compra.produtos.set(carrinho)
     return redirect('compras')
         
