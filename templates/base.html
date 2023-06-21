@@ -8,14 +8,18 @@
 </head>
 <body>
     <header>
-
+        
     </header>
     <nav>
         <ul>
-            <li><a href="{% url 'colaboradores' %}">Colaboradores</a></li>
-            <li><a href="{% url 'produtos' %}">Produtos</a></li>
+            <li><a href="{% url 'visualizar_painel' %}">Painel</a></li>
+            <li><a href="{% url 'visualizar_colaboradores' %}">Colaboradores</a></li>
+            <li><a href="{% url 'visualizar_produtos' %}">Produtos</a></li>
             {% if request.user.is_superuser %}
                 <li><a href="{% url 'usuarios' %}">Usuários</a></li>
+            {% endif %}
+            {% if request.user.is_superuser %}
+                <li><a href="{% url 'visualizar_compras' %}">Compras</a></li>
             {% endif %}
             <li><a href="{% url 'sair' %}">Sair</a></li>
         </ul>

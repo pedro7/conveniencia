@@ -4,5 +4,5 @@ from django.shortcuts import render
 
 
 @login_required
-def painel(request: HttpRequest):
+def visualizar_painel(request: HttpRequest):
     return render(request, 'painel/painel.html')

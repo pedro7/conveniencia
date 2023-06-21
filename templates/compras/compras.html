@@ -3,49 +3,34 @@
 {% block title %}Compras{% endblock %}
 
 {% block main %}
-    <form method="post" action="{% url 'adicionar_produto' %}">
-        {% csrf_token %}
-        <input type="text" name="codigo_barras" maxlength="13" placeholder="Código de Barras">
-        <input type="submit" value="Adicionar no Carrinho">
-    </form>
     <table>
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Remover</th>
+                <th>Colaborador</th>
+                <th>Data</th>
+                <th>Excluir</th>
             </tr>
         </thead>
         <tbody>
-            {% for produto in carrinho %}
+            {% for compra in compras %}
                 <tr>
-                    <td>{{ produto.nome }}</td>
-                    <td>{{ produto.preco }}</td>
+                    <td>{{ compra.colaborador.nome }}</td>
+                    {% for produto in compra.produtos.all %}
+                        <td>{{ produto.nome }}</td>
+                        <td>{{ produto.preco }}</td>
+                    {% endfor %}
+                    <td>{{ compra.data }}</td>
                     <td>
-                        <form method="post" action="{% url 'remover_produto' produto.codigo_barras %}">
+                        <form method="post" action="{% url 'excluir_compra' compra.id %}">
                             {% csrf_token %}
-                            <input type="submit" value="Remover">
+                            <input type="submit" value="Excluir">
                         </form>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
-        {% if total > 0 %}
-            <tfoot>
-                <tr>
-                    <td>Total: {{ total }}</td>
-                </tr>
-            </tfoot>
-        {% endif %}
+        <tfoot>
+
+        </tfoot>
     </table>
-    <form method="post" action="{% url 'limpar_carrinho' %}">
-        {% csrf_token %}
-        <input type="submit" value="Limpar">
-    </form>
-    <form method="post" action="{% url 'finalizar' %}">
-        {% csrf_token %}
-        <input type="text" name="login" placeholder="Login">
-        <input type="password" name="senha" placeholder="Senha">
-        <input type="submit" value="Finalizar">
-    </form>
 {% endblock %}

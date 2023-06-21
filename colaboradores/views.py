@@ -5,7 +5,7 @@ from .models import Colaborador
 
 
 @login_required
-def colaboradores(request: HttpRequest):
+def visualizar_colaboradores(request: HttpRequest):
     if request.method == 'GET':
         colaboradores = Colaborador.objects.all()
         return render(request, 'colaboradores/colaboradores.html', {'colaboradores': colaboradores})
@@ -18,7 +18,7 @@ def cadastrar_colaborador(request: HttpRequest):
         login = request.POST['login']
         senha = request.POST['senha']
         Colaborador.objects.create(nome=nome, cpf=cpf, login=login, senha=senha)
-        return redirect('colaboradores')
+        return redirect('visualizar_colaboradores')
     
 @login_required
 def editar_colaborador(request: HttpRequest, login):
@@ -31,7 +31,7 @@ def editar_colaborador(request: HttpRequest, login):
         colaborador.login = request.POST['login']
         colaborador.senha = request.POST['senha']
         colaborador.save()
-        return redirect('colaboradores')
+        return redirect('visualizar_colaboradores')
     
 @login_required
 def ativar_colaborador(request: HttpRequest, login):
@@ -39,7 +39,7 @@ def ativar_colaborador(request: HttpRequest, login):
         colaborador = Colaborador.objects.get(login=login)
         colaborador.situacao = 'ativo'
         colaborador.save()
-        return redirect('colaboradores')
+        return redirect('visualizar_colaboradores')
 
 @login_required
 def inativar_colaborador(request: HttpRequest, login):
@@ -47,4 +47,4 @@ def inativar_colaborador(request: HttpRequest, login):
         colaborador = Colaborador.objects.get(login=login)
         colaborador.situacao = 'inativo'
         colaborador.save()
-        return redirect('colaboradores')
+        return redirect('visualizar_colaboradores')

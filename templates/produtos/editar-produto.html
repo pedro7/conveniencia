@@ -9,6 +9,6 @@
         <input type="text" value="{{ produto.codigo_barras }}" name="codigo_barras" placeholder="Código de Barras">
         <input type="number" step="0.01" value="{{ produto.preco }}" name="preco" placeholder="Preço">
         <input type="submit" value="Editar">
-        <a href="{% url 'produtos' %}">Cancelar</a>
+        <a href="{% url 'visualizar_produtos' %}">Cancelar</a>
     </form>
 {% endblock %}

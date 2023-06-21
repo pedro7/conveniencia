@@ -10,6 +10,6 @@ class Compra(models.Model):
 
 
 class CompraProduto(models.Model):
-    compra = models.ForeignKey(Compra, on_delete=models.PROTECT)
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     quantidade = models.IntegerField()

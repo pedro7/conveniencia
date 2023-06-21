@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib import messages
 
 
 @login_required
@@ -25,7 +26,8 @@ def entrar(request: HttpRequest):
             login(request, usuario)
             return redirect('painel')
         else:
-            return HttpResponse('credenciais incorretas')
+            messages.error(request, 'Credenciais incorretas')
+            return redirect('entrar')
 
 def sair(request: HttpRequest):
     if request.method == 'GET':

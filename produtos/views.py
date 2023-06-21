@@ -5,7 +5,7 @@ from .models import Produto
 
 
 @login_required
-def produtos(request: HttpRequest):
+def visualizar_produtos(request: HttpRequest):
     if request.method == 'GET':
         produtos = Produto.objects.all()
         return render(request, 'produtos/produtos.html', {'produtos': produtos})
@@ -17,7 +17,7 @@ def cadastrar_produto(request: HttpRequest):
         codigo_barras = request.POST['codigo_barras']
         preco = request.POST['preco']
         Produto.objects.create(nome=nome, codigo_barras=codigo_barras, preco=preco)
-        return redirect('produtos')
+        return redirect('visualizar_produtos')
     
 @login_required
 def editar_produto(request: HttpRequest, id):
@@ -29,10 +29,10 @@ def editar_produto(request: HttpRequest, id):
         produto.codigo_barras = request.POST['codigo_barras']
         produto.preco = request.POST['preco']
         produto.save()
-        return redirect('produtos')
+        return redirect('visualizar_produtos')
 
 @login_required
 def excluir_produto(request: HttpRequest, id):
     if request.method == 'POST':
         Produto.objects.get(id=id).delete()
-        return redirect('produtos')
+        return redirect('visualizar_produtos')
