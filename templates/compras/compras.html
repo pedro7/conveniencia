@@ -8,6 +8,7 @@
             <tr>
                 <th>Colaborador</th>
                 <th>Data</th>
+                <th>Produtos</th>
                 <th>Excluir</th>
             </tr>
         </thead>
@@ -15,11 +16,10 @@
             {% for compra in compras %}
                 <tr>
                     <td>{{ compra.colaborador.nome }}</td>
-                    {% for produto in compra.produtos.all %}
-                        <td>{{ produto.nome }}</td>
-                        <td>{{ produto.preco }}</td>
-                    {% endfor %}
                     <td>{{ compra.data }}</td>
+                    <td>
+                        
+                    </td>
                     <td>
                         <form method="post" action="{% url 'excluir_compra' compra.id %}">
                             {% csrf_token %}

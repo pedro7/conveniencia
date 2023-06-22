@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from .models import Colaborador
+
+from .models import Colaborador, ColaboradorForm
+from django.core.exceptions import ValidationError
 
 
 @login_required
@@ -13,11 +16,11 @@ def visualizar_colaboradores(request: HttpRequest):
 @login_required
 def cadastrar_colaborador(request: HttpRequest):
     if request.method == 'POST':
-        nome = request.POST['nome']
-        cpf = request.POST['cpf']
-        login = request.POST['login']
-        senha = request.POST['senha']
-        Colaborador.objects.create(nome=nome, cpf=cpf, login=login, senha=senha)
+        form = ColaboradorForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print(form.errors.as_data())
         return redirect('visualizar_colaboradores')
     
 @login_required
