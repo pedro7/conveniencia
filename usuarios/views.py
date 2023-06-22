@@ -24,7 +24,7 @@ def entrar(request: HttpRequest):
         usuario = authenticate(request, username=nome_usuario, password=senha)
         if usuario:
             login(request, usuario)
-            return redirect('painel')
+            return redirect('visualizar_painel')
         else:
             messages.error(request, 'Credenciais incorretas')
             return redirect('entrar')
