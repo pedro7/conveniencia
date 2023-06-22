@@ -4,7 +4,6 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
 from .models import Colaborador, ColaboradorForm
-from django.core.exceptions import ValidationError
 
 
 @login_required
@@ -20,7 +19,9 @@ def cadastrar_colaborador(request: HttpRequest):
         if form.is_valid():
             form.save()
         else:
-            print(form.errors.as_data())
+            for error_list in form.errors.values():
+                for error in error_list:
+                    messages.error(request, error)
         return redirect('visualizar_colaboradores')
     
 @login_required
