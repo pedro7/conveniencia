@@ -11,7 +11,7 @@ class Colaborador(models.Model):
     nome = models.CharField(max_length=100)
     cpf = models.CharField(max_length=11, unique=True)
     login = models.CharField(max_length=32, unique=True)
-    senha = models.CharField(max_length=128)
+    senha = models.CharField(max_length=255)
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
 
     def clean(self):

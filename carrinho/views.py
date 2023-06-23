@@ -1,10 +1,13 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
-from produtos.models import Produto
-from colaboradores.models import Colaborador
-from compras.models import Compra
 from collections import Counter
 
+from django.contrib import messages
+from django.contrib.auth.hashers import check_password, make_password
+from django.http import HttpRequest
+from django.shortcuts import redirect, render
+
+from colaboradores.models import Colaborador
+from compras.models import Compra
+from produtos.models import Produto
 
 carrinho: list[Produto] = []
 
@@ -20,7 +23,11 @@ def visualizar_carrinho(request: HttpRequest):
 
 def adicionar_produto(request: HttpRequest):
     codigo_barras = request.POST['codigo_barras']
-    produto = Produto.objects.get(codigo_barras=codigo_barras)
+    try:
+        produto = Produto.objects.get(codigo_barras=codigo_barras)
+    except Produto.DoesNotExist:
+        messages.error(request, 'Produto não cadastrado.')
+        return redirect('visualizar_carrinho')
     carrinho.append(produto)
     return redirect('visualizar_carrinho')
     
@@ -36,7 +43,17 @@ def finalizar_compra(request: HttpRequest):
     if request.method == 'POST':
         login = request.POST['login']
         senha = request.POST['senha']
-        colaborador = Colaborador.objects.get(login=login)
+        try:
+            colaborador = Colaborador.objects.get(login=login)
+        except Colaborador.DoesNotExist:
+            messages.error(request, 'Colaborador não cadastrado.')
+            return redirect('visualizar_carrinho')
+        if colaborador.situacao == 'inativo':
+            messages.error(request, 'Colaborador inativo.')
+            return redirect('visualizar_carrinho')
+        if not check_password(senha, colaborador.senha):
+            messages.error(request, 'Senha incorreta.')
+            return redirect('visualizar_carrinho')
         counter = Counter(carrinho)
         compra = Compra.objects.create(colaborador=colaborador)
         for produto, quantidade in counter.items():

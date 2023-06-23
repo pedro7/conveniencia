@@ -20,7 +20,6 @@
                 <th>Nome</th>
                 <th>CPF</th>
                 <th>Login</th>
-                <th>Senha</th>
                 <th>Situação</th>
                 <th>Editar</th>
                 <th>Ativar/Inativar</th>
@@ -32,7 +31,6 @@
                     <td>{{ colaborador.nome }}</td>
                     <td>{{ colaborador.cpf }}</td>
                     <td>{{ colaborador.login }}</td>
-                    <td>{{ colaborador.senha }}</td>
                     <td>{{ colaborador.situacao }}</td>
                     <td>
                         <form method="get" action="{% url 'editar_colaborador' colaborador.login %}">

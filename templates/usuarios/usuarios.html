@@ -20,7 +20,6 @@
                 <th>Nome</th>
                 <th>Administrador</th>
                 <th>Último Login</th>
-                <th>Data de Ingresso</th>
                 <th>Editar</th>
                 <th>Excluir</th>
             </tr>
@@ -33,7 +32,6 @@
                     <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
                     <td>{{ usuario.is_superuser }}</td>
                     <td>{{ usuario.last_login }}</td>
-                    <td>{{ usuario.date_joined }}</td>
                     <td>
                         <form method="get" action="{% url 'editar_usuario' usuario.username %}">
                         {% csrf_token %}

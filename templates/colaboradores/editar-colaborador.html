@@ -5,11 +5,14 @@
 {% block main %}
     <form method="post" action="{% url 'editar_colaborador' colaborador.login %}">
         {% csrf_token %}
-        <input type="text" value="{{ colaborador.nome }}" name="nome" placeholder="Nome">
-        <input type="text" value="{{ colaborador.cpf }}" name="cpf" placeholder="CPF">
-        <input type="text" value="{{ colaborador.login }}" name="login" placeholder="Login">
-        <input type="password" name="senha" placeholder="Senha">
+        <input type="text" value="{{ colaborador.nome }}" name="nome" placeholder="Nome" required>
+        <input type="text" value="{{ colaborador.cpf }}" name="cpf" placeholder="CPF" required>
+        <input type="text" value="{{ colaborador.login }}" name="login" placeholder="Login" required>
+        <input type="password" name="senha" placeholder="Senha" required>
         <input type="submit" value="Editar">
         <a href="{% url 'visualizar_colaboradores' %}">Cancelar</a>
     </form>
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
 {% endblock %}

@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+/*body {
+	background: linear-gradient(45deg, #4e54c8, #8f94fb);
+	background-size: 400% 400%;
+	animation: gradient 30s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}*/
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: inline;
+}
+
+table {
+    border-collapse: collapse;
+	border-radius: 10px;
+	overflow: hidden;
+    margin: 25px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+thead {
+    background-color: #36304A;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #DDDDDD;
+	background-color: #FFFFFF;
+}
+
+tbody tr:hover {
+	background-color: #F5F5F5;
+}
+
+tr:nth-of-type(even) {
+    background-color: #F5F5F5;
+}
+
+th {
+	padding-top: 20px;
+	padding-right: 40px;
+	padding-bottom: 20px;
+	padding-left: 40px;
+}
+
+td {
+	padding-top: 10px;
+	padding-right: 40px;
+	padding-bottom: 10px;
+	padding-left: 40px;
+}

@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from .models import Produto
+
+from .models import Produto, ProdutoForm
 
 
 @login_required
@@ -13,10 +15,13 @@ def visualizar_produtos(request: HttpRequest):
 @login_required
 def cadastrar_produto(request: HttpRequest):
     if request.method == 'POST':
-        nome = request.POST['nome']
-        codigo_barras = request.POST['codigo_barras']
-        preco = request.POST['preco']
-        Produto.objects.create(nome=nome, codigo_barras=codigo_barras, preco=preco)
+        form = ProdutoForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            for error_list in form.errors.values():
+                for error in error_list:
+                    messages.error(request, error)
         return redirect('visualizar_produtos')
     
 @login_required
@@ -25,10 +30,14 @@ def editar_produto(request: HttpRequest, id):
     if request.method == 'GET':
         return render(request, 'produtos/editar-produto.html', {'produto': produto})
     elif request.method == 'POST':
-        produto.nome = request.POST['nome']
-        produto.codigo_barras = request.POST['codigo_barras']
-        produto.preco = request.POST['preco']
-        produto.save()
+        form = ProdutoForm(request.POST, instance=produto)
+        if form.is_valid():
+            form.save()
+        else:
+            for error_list in form.errors.values():
+                for error in error_list:
+                    messages.error(request, error)
+            return render(request, 'produtos/editar-produto.html', {'produto': produto})
         return redirect('visualizar_produtos')
 
 @login_required
