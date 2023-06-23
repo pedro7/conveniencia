@@ -1,7 +1,7 @@
 from collections import Counter
 
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import check_password
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
@@ -60,4 +60,26 @@ def finalizar_compra(request: HttpRequest):
             compra.produtos.add(produto, through_defaults={'quantidade': quantidade})
         carrinho.clear()
     return redirect('visualizar_carrinho')
-        
+
+def consultar_gastos(request: HttpRequest):
+    if request.method == 'POST':
+        login = request.POST['login']
+        senha = request.POST['senha']
+        try:
+            colaborador = Colaborador.objects.get(login=login)
+        except Colaborador.DoesNotExist:
+            messages.error(request, 'Colaborador não cadastrado.')
+            return redirect('visualizar_carrinho')
+        if colaborador.situacao == 'inativo':
+            messages.error(request, 'Colaborador inativo.')
+            return redirect('visualizar_carrinho')
+        if not check_password(senha, colaborador.senha):
+            messages.error(request, 'Senha incorreta.')
+            return redirect('visualizar_carrinho')
+        compras = Compra.objects.filter(colaborador=colaborador)
+        total_gasto = 0
+        for compra in compras:
+            produtos = compra.produtos.all()
+            for produto in produtos:
+                total_gasto += produto.preco
+        return render(request, 'carrinho/carrinho.html', {'total_gasto': total_gasto})
