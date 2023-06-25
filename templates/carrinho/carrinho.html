@@ -55,12 +55,12 @@
         </table>
         <div class="btn">
             <button id="finalizar_btn">Finalizar Compra</button>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
             <button id="consultar_btn">Consultar Gastos</button>
         </div>
-        <h1>{{ total_gasto }}</h1>
         <div class="modal" id="finalizar_modal">
             <div class="modal-content">
-                <span class="close" id="fechar_modal1">&times;</span>
+                <span class="close" id="fechar_modal1">&times;</span><br><br>
                 <form method="post" action="{% url 'finalizar_compra' %}">
                     {% csrf_token %}
                     <input type="text" name="login" placeholder="Login">
@@ -71,7 +71,7 @@
         </div>
         <div class="modal" id="consultar_modal">
             <div class="modal-content">
-                <span class="close" id="fechar_modal2">&times;</span>
+                <span class="close" id="fechar_modal2">&times;</span><br><br>
                 <form method="post" action="{% url 'consultar_gastos' %}">
                     {% csrf_token %}
                     <input type="text" name="login" placeholder="Login">
@@ -80,6 +80,14 @@
                 </form>
             </div>
         </div>
+        {% if total_gasto %}
+            <div class="modal" id="total_gasto_modal" style="display: block;">
+                <div class="modal-content">
+                    <span class="close" id="fechar_modal3">&times;</span><br><br>
+                    <h1>Total gasto: {{ total_gasto }}</h1>
+                </div>
+            </div>
+        {% endif %}
     </main>
     <script src="{% static 'js/carrinho.js' %}"></script>
 </body>

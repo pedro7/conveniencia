@@ -7,14 +7,23 @@
     <title>Entrar</title>
     <link rel="stylesheet" href="{% static 'css/entrar.css' %}">
 </head>
-<body>
+<body background="{% static 'img/fundo1.png' %}">
     <main>
-        <form method="post" action="{% url 'entrar' %}">
-            {% csrf_token %}
-            <input type="text" name="nome_usuario" placeholder="Nome de usuário" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-            <input type="submit" value="Entrar">
-        </form>
+        <div class="container">
+            <h2>Login</h2>
+            <form method="post" action="{% url 'entrar' %}">
+                {% csrf_token %}
+              <div class="form-group">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="nome_usuario" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="senha" required>
+              </div>
+              <button type="submit">Entrar</button>
+            </form>
+          </div>
         {% for message in messages %}
             {{ message }}
         {% endfor %}
