@@ -39,6 +39,17 @@ li a {
   padding: 60px;
 }
 
+.center-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+}
 
 .btn {
   display: flex;

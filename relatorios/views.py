@@ -1,16 +1,19 @@
-from django.contrib import messages
-from compras.models import Compra, CompraProduto
-from colaboradores.models import Colaborador
+from datetime import datetime
+
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from reportlab.pdfgen.canvas import Canvas
-from produtos.models import Produto
-from datetime import datetime
+
+from colaboradores.models import Colaborador
+from compras.models import Compra, CompraProduto
 
 
+@login_required
 def visualizar_relatorios(request: HttpRequest):
     return render(request, 'relatorios/relatorios.html')
 
+@login_required
 def gerar_total_mensal(request: HttpRequest):
     response = HttpResponse()
     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -26,6 +29,7 @@ def gerar_total_mensal(request: HttpRequest):
     p.save()
     return response
 
+@login_required
 def gerar_consumo_geral(request: HttpRequest):
     data1 = datetime.fromisoformat(request.GET['data']).strftime("%Y-%m-%d %H:%M:%S.%f")
     data2 = datetime.fromisoformat(request.GET['dataa']).strftime("%Y-%m-%d %H:%M:%S.%f")
