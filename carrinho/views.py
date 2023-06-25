@@ -6,7 +6,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
 from colaboradores.models import Colaborador
-from compras.models import Compra
+from compras.models import Compra, CompraProduto
 from produtos.models import Produto
 
 carrinho: list[Produto] = []
@@ -79,7 +79,8 @@ def consultar_gastos(request: HttpRequest):
         compras = Compra.objects.filter(colaborador=colaborador)
         total_gasto = 0
         for compra in compras:
-            produtos = compra.produtos.all()
-            for produto in produtos:
-                total_gasto += produto.preco
+            compra_produtos = CompraProduto.objects.filter(compra=compra)
+            for compra_produto in compra_produtos:
+                produto = Produto.objects.get(id=compra_produto.produto.id)
+                total_gasto += produto.preco * compra_produto.quantidade
         return render(request, 'carrinho/carrinho.html', {'total_gasto': total_gasto})

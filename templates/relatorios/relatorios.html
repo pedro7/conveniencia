@@ -3,5 +3,14 @@
 {% block title %}Painel{% endblock %}
 
 {% block main %}
-    Relatórios
+    <form method="get" action="{% url 'gerar_total_mensal' %}">
+        {% csrf_token %}
+        <input type="submit" value="Gerar total mensal">
+    </form>
+    <form method="get" action="{% url 'gerar_consumo_geral' %}">
+        {% csrf_token %}
+        <input type="datetime-local" name="data" required>
+        <input type="datetime-local" name="dataa" required>
+        <input type="submit" value="Gerar consumo geral">
+    </form>
 {% endblock %}

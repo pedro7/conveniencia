@@ -39,39 +39,48 @@
                         </td>
                     </tr>
                 {% endfor %}
+            </tbody>
+            <tfoot>
                 <tr>
                     <td>Total</td>
                     <td>{{ total }}</td>
-                    <td></td>
+                    <td>
+                        <form method="post" action="{% url 'limpar_carrinho' %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Limpar">
+                        </form>
+                    </td>
                 </tr>
-            </tbody>
-            {% if total > 0 %}
-                <tfoot>
-                    <tr>
-                        <td><button>Finalizar Compra</button></td>
-                        <td><button>Consultar Gastos</button></td>
-                        <td><button>Limpar Carrinho</button></td>
-                    </tr>
-                </tfoot>
-            {% endif %}
+            </tfoot>
         </table>
-        <form method="post" action="{% url 'limpar_carrinho' %}">
-            {% csrf_token %}
-            <input type="submit" value="Limpar">
-        </form>
-        <form method="post" action="{% url 'finalizar_compra' %}">
-            {% csrf_token %}
-            <input type="text" name="login" placeholder="Login">
-            <input type="password" name="senha" placeholder="Senha">
-            <input type="submit" value="Finalizar">
-        </form>
-        <form method="post" action="{% url 'consultar_gastos' %}">
-            {% csrf_token %}
-            <input type="text" name="login" placeholder="Login">
-            <input type="password" name="senha" placeholder="Senha">
-            <input type="submit" value="Consultar">
-        </form>
-        {{ total_gasto }}
+        <div class="btn">
+            <button id="finalizar_btn">Finalizar Compra</button>
+            <button id="consultar_btn">Consultar Gastos</button>
+        </div>
+        <h1>{{ total_gasto }}</h1>
+        <div class="modal" id="finalizar_modal">
+            <div class="modal-content">
+                <span class="close" id="fechar_modal1">&times;</span>
+                <form method="post" action="{% url 'finalizar_compra' %}">
+                    {% csrf_token %}
+                    <input type="text" name="login" placeholder="Login">
+                    <input type="password" name="senha" placeholder="Senha">
+                    <input type="submit" value="Finalizar">
+                </form>
+            </div>
+        </div>
+        <div class="modal" id="consultar_modal">
+            <div class="modal-content">
+                <span class="close" id="fechar_modal2">&times;</span>
+                <form method="post" action="{% url 'consultar_gastos' %}">
+                    {% csrf_token %}
+                    <input type="text" name="login" placeholder="Login">
+                    <input type="password" name="senha" placeholder="Senha">
+                    <input type="submit" value="Consultar">
+                </form>
+            </div>
+        </div>
     </main>
+    <script src="{% static 'js/carrinho.js' %}"></script>
 </body>
 </html>

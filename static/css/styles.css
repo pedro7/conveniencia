@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
 * {
-    font-family: 'Open Sans', sans-serif;
-    font-size: x-large;
+  font-family: 'Open Sans', sans-serif;
+  font-size: x-large;
 }
 
 /*body {
@@ -36,7 +36,13 @@ ul {
 }
 
 li {
-    display: inline;
+  display: inline;
+}
+
+
+.btn {
+  display: flex;
+  justify-content: center;
 }
 
 table {
@@ -56,7 +62,7 @@ thead {
 }
 
 tbody tr {
-    border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
 	background-color: #FFFFFF;
 }
 
@@ -65,7 +71,7 @@ tbody tr:hover {
 }
 
 tr:nth-of-type(even) {
-    background-color: #F5F5F5;
+  background-color: #F5F5F5;
 }
 
 th {
@@ -97,7 +103,7 @@ td {
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 20%;
+  width: 40%;
   height: 40%;
   background: rgba(black, .3);
   box-shadow: 0 0 30px 10px rgba(black, .3);
