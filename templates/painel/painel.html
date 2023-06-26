@@ -8,7 +8,7 @@
     <div class="center-image">
         <img src="{% static 'img/logo.png' %}">
     </div>
-    <h1>Total vendido hoje: R${{ total_hoje }}</h1><br>
+    <h1>Total vendido hoje: R${{ total_vendido_hoje }}</h1><br>
     <h1>Itens mais vendidos:</h1>
     <table>
         <thead>
@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for produto, quantidade in produtos_mais_consumidos %}
+            {% for produto, quantidade in produtos_mais_consumidos_hoje %}
                 <tr>
                     <td>{{ produto.nome }}</td>
                     <td>{{ quantidade }}</td>

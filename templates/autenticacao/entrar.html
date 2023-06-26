@@ -23,12 +23,12 @@
               </div>
               <button type="submit">Entrar</button>
             </form>
+            {% for message in messages %}
+              <div class="erro">
+                {{ message }}
+              </div>
+            {% endfor %}
           </div>
-        {% for message in messages %}
-          <div class="erro">
-            {{ message }}
-          </div>
-        {% endfor %}
     </main>
 </body>
 </html>

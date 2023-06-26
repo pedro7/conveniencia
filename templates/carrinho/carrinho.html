@@ -47,9 +47,9 @@
                     <td>Total</td>
                     <td>{{ total }}</td>
                     <td>
-                        <form method="post" action="{% url 'limpar_carrinho' %}">
+                        <form method="post" action="{% url 'esvaziar_carrinho' %}">
                             {% csrf_token %}
-                            <input type="submit" value="Limpar">
+                            <input type="submit" value="Esvaziar">
                         </form>
                     </td>
                 </tr>
@@ -74,7 +74,7 @@
         <div class="modal" id="consultar_modal">
             <div class="modal-content">
                 <span class="close" id="fechar_modal2">&times;</span><br><br>
-                <form method="post" action="{% url 'consultar_gastos' %}">
+                <form method="post" action="{% url 'consultar_gasto_mensal' %}">
                     {% csrf_token %}
                     <input type="text" name="login" placeholder="Login">
                     <input type="password" name="senha" placeholder="Senha">
@@ -82,11 +82,11 @@
                 </form>
             </div>
         </div>
-        {% if total_gasto %}
+        {% if gasto_mensal %}
             <div class="modal" id="total_gasto_modal" style="display: block;">
                 <div class="modal-content">
                     <span class="close" id="fechar_modal3">&times;</span><br><br>
-                    <h1>Total gasto: {{ total_gasto }}</h1>
+                    <h1>Gasto mensal: {{ gasto_mensal }}</h1>
                 </div>
             </div>
         {% endif %}

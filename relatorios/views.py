@@ -1,9 +1,9 @@
 from datetime import datetime
-from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from reportlab.pdfgen.canvas import Canvas
 
 from colaboradores.models import Colaborador
@@ -12,31 +12,39 @@ from compras.models import Compra, CompraProduto
 
 @login_required
 def visualizar_relatorios(request: HttpRequest):
+    if not request.user.is_superuser:
+        return HttpResponse('Permissão insuficiente')
     return render(request, 'relatorios/relatorios.html')
 
+# limpar
 @login_required
 def gerar_total_mensal(request: HttpRequest):
+    if not request.user.is_superuser:
+        return HttpResponse('Permissão insuficiente')
     response = HttpResponse()
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="Total_Mensal.pdf"'
     p = Canvas(response)
     p.setFont("Helvetica", 12)  # Set the font and size
     p.drawString(50, 750, "Total mensal:")  # Write the text at the specified coordinates
     mes_atual = timezone.now().month
     total_gasto = 0
     for compra in Compra.objects.filter(data__month=mes_atual):
-        for produto in compra.produtos.all():
-            total_gasto += produto.preco
+        for compra_produto in CompraProduto.objects.filter(compra=compra):
+            total_gasto += compra_produto.produto.preco * compra_produto.quantidade
     p.drawString(50, 725, str(total_gasto))
     p.showPage()
     p.save()
     return response
 
+# limpar
 @login_required
 def gerar_consumo_geral(request: HttpRequest):
+    if not request.user.is_superuser:
+        return HttpResponse('Permissão insuficiente')
     data1 = datetime.fromisoformat(request.GET['data']).strftime("%Y-%m-%d %H:%M:%S.%f")
     data2 = datetime.fromisoformat(request.GET['dataa']).strftime("%Y-%m-%d %H:%M:%S.%f")
     response = HttpResponse()
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="Consumo_Geral.pdf"'
     p = Canvas(response)
     p.setFont("Helvetica", 12)  # Set the font and size
     y = 750

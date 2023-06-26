@@ -15,7 +15,7 @@ def entrar(request: HttpRequest):
             login(request, usuario)
             return redirect('visualizar_painel')
         else:
-            messages.error(request, 'Credenciais incorretas')
+            messages.error(request, 'Credenciais incorretas.')
             return redirect('entrar')
 
 def sair(request: HttpRequest):

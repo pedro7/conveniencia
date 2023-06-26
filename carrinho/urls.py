@@ -5,8 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.visualizar_carrinho, name='visualizar_carrinho'),
     path('adicionar/', views.adicionar_produto, name='adicionar_produto'),
-    path('remover/<int:index>/', views.remover_produto, name='remover_produto'),
-    path('limpar/', views.limpar_carrinho, name='limpar_carrinho'),
+    path('remover/<int:posicao>/', views.remover_produto, name='remover_produto'),
+    path('esvaziar/', views.esvaziar_carrinho, name='esvaziar_carrinho'),
     path('finalizar/', views.finalizar_compra, name='finalizar_compra'),
-    path('consultar/', views.consultar_gastos, name='consultar_gastos')
+    path('consultar-gasto-mensal/', views.consultar_gasto_mensal, name='consultar_gasto_mensal')
 ]

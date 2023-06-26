@@ -12,6 +12,11 @@
         <input type="password" name="senha" placeholder="Senha" required>
         <input type="submit" value="Cadastrar">
     </form>
+    {% for message in messages %}
+        <div class="erro">
+            {{ message }}
+        </div>
+    {% endfor %}
     <table>
         <thead>
             <tr>
@@ -40,8 +45,8 @@
                     </td>
                     <td>
                         <form method="post" action="{% url 'excluir_usuario' usuario.username %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Excluir">
+                            {% csrf_token %}
+                            <input type="submit" value="Excluir">
                         </form>
                     </td>
                 </tr>

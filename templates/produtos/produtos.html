@@ -5,9 +5,9 @@
 {% block main %}
     <form method="post" action="{% url 'cadastrar_produto' %}">
         {% csrf_token %}
-        <input type="text" name="nome" placeholder="Nome">
-        <input type="text" name="codigo_barras" placeholder="Código de Barras">
-        <input type="number" step="0.01" name="preco" placeholder="Preço">
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="codigo_barras" placeholder="Código de Barras" maxlength="13" required>
+        <input type="number" step="0.01" name="preco" placeholder="Preço" required>
         <input type="submit" value="Cadastrar">
     </form>
     {% for message in messages %}
@@ -32,13 +32,13 @@
                     <td>{{ produto.codigo_barras }}</td>
                     <td>{{ produto.preco }}</td>
                     <td>
-                        <form method="get" action="{% url 'editar_produto' produto.id %}">
+                        <form method="get" action="{% url 'editar_produto' produto.codigo_barras %}">
                             {% csrf_token %}
                             <input type="submit" value="Editar">
                         </form>
                     </td>
                     <td>
-                        <form method="post" action="{% url 'excluir_produto' produto.id %}">
+                        <form method="post" action="{% url 'excluir_produto' produto.codigo_barras %}">
                             {% csrf_token %}
                             <input type="submit" value="Excluir">
                         </form>

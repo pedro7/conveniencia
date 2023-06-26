@@ -13,13 +13,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for compra, total in compras.items %}
+            {% for compra, valor in compras_valores.items %}
                 <tr>
                     <td>{{ compra.colaborador.nome }}</td>
                     <td>{{ compra.data }}</td>
-                    <td>
-                        {{ total }}
-                    </td>
+                    <td>{{ valor }}</td>
                     <td>
                         <form method="post" action="{% url 'excluir_compra' compra.id %}">
                             {% csrf_token %}

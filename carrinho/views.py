@@ -6,7 +6,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
 from colaboradores.models import Colaborador
-from compras.models import Compra, CompraProduto
+from compras.models import Compra
 from produtos.models import Produto
 
 carrinho: list[Produto] = []
@@ -31,56 +31,46 @@ def adicionar_produto(request: HttpRequest):
     carrinho.append(produto)
     return redirect('visualizar_carrinho')
     
-def remover_produto(request: HttpRequest, index):
-    carrinho.pop(index - 1)
+def remover_produto(request: HttpRequest, posicao):
+    carrinho.pop(posicao - 1)
     return redirect('visualizar_carrinho')
         
-def limpar_carrinho(request: HttpRequest):
+def esvaziar_carrinho(request: HttpRequest):
     carrinho.clear()
     return redirect('visualizar_carrinho')
 
 def finalizar_compra(request: HttpRequest):
-    if request.method == 'POST':
-        login = request.POST['login']
-        senha = request.POST['senha']
-        try:
-            colaborador = Colaborador.objects.get(login=login)
-        except Colaborador.DoesNotExist:
-            messages.error(request, 'Colaborador não cadastrado.')
-            return redirect('visualizar_carrinho')
-        if colaborador.situacao == 'inativo':
-            messages.error(request, 'Colaborador inativo.')
-            return redirect('visualizar_carrinho')
-        if not check_password(senha, colaborador.senha):
-            messages.error(request, 'Senha incorreta.')
-            return redirect('visualizar_carrinho')
-        counter = Counter(carrinho)
-        compra = Compra.objects.create(colaborador=colaborador)
-        for produto, quantidade in counter.items():
-            compra.produtos.add(produto, through_defaults={'quantidade': quantidade})
-        carrinho.clear()
+    colaborador = _get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
+    if not colaborador:
+        return redirect('visualizar_carrinho')
+    compra = Compra.objects.create(colaborador=colaborador)
+    counter = Counter(carrinho)
+    for produto, quantidade in counter.items():
+        compra.produtos.add(produto, through_defaults={'quantidade': quantidade})
+    carrinho.clear()
     return redirect('visualizar_carrinho')
 
-def consultar_gastos(request: HttpRequest):
-    if request.method == 'POST':
-        login = request.POST['login']
-        senha = request.POST['senha']
-        try:
-            colaborador = Colaborador.objects.get(login=login)
-        except Colaborador.DoesNotExist:
-            messages.error(request, 'Colaborador não cadastrado.')
-            return redirect('visualizar_carrinho')
-        if colaborador.situacao == 'inativo':
-            messages.error(request, 'Colaborador inativo.')
-            return redirect('visualizar_carrinho')
-        if not check_password(senha, colaborador.senha):
-            messages.error(request, 'Senha incorreta.')
-            return redirect('visualizar_carrinho')
-        compras = Compra.objects.filter(colaborador=colaborador)
-        total_gasto = 0
-        for compra in compras:
-            compra_produtos = CompraProduto.objects.filter(compra=compra)
-            for compra_produto in compra_produtos:
-                produto = Produto.objects.get(id=compra_produto.produto.id)
-                total_gasto += produto.preco * compra_produto.quantidade
-        return render(request, 'carrinho/carrinho.html', {'total_gasto': total_gasto})
+def consultar_gasto_mensal(request: HttpRequest):
+    colaborador = _get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
+    if not colaborador:
+        return redirect('visualizar_carrinho')
+    compras = Compra.objects.filter(colaborador=colaborador)
+    gasto_mensal = 0
+    for compra in compras:
+        for compra_produto in compra.compra_produtos.all():
+            gasto_mensal += compra_produto.produto.preco * compra_produto.quantidade
+    return render(request, 'carrinho/carrinho.html', {'gasto_mensal': gasto_mensal})
+
+def _get_colaborador_valido(request, login, senha):
+    try:
+        colaborador = Colaborador.objects.get(login=login)
+    except Colaborador.DoesNotExist:
+        messages.error(request, 'Colaborador não cadastrado.')
+        return None
+    if colaborador.situacao == 'inativo':
+        messages.error(request, 'Colaborador inativo.')
+        return None
+    if not check_password(senha, colaborador.senha):
+        messages.error(request, 'Senha incorreta.')
+        return None
+    return colaborador

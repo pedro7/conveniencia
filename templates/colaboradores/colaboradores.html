@@ -40,21 +40,16 @@
                             <input type="submit" value="Editar">
                         </form>
                     </td>
-                    {% if colaborador.situacao == 'ativo' %}
-                        <td>
-                            <form method="post" action="{% url 'inativar_colaborador' colaborador.login %}">
-                                {% csrf_token %}
+                    <td>
+                        <form method="post" action="{% url 'alterar_situacao' colaborador.login %}">
+                            {% csrf_token %}
+                            {% if colaborador.situacao == 'ativo' %}
                                 <input type="submit" value="Inativar">
-                            </form>
-                        </td>
-                    {% elif colaborador.situacao == 'inativo' %}
-                        <td>
-                            <form method="post" action="{% url 'ativar_colaborador' colaborador.login %}">
-                                {% csrf_token %}
+                            {% else %}
                                 <input type="submit" value="Ativar">
-                            </form>
-                        </td>
-                    {% endif %}
+                            {% endif %}
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
