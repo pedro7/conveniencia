@@ -13,6 +13,8 @@
         <a href="{% url 'visualizar_colaboradores' %}">Cancelar</a>
     </form>
     {% for message in messages %}
-        {{ message }}
+        <div class="erro">
+            {{ message }}
+        </div>
     {% endfor %}
 {% endblock %}

@@ -12,6 +12,8 @@
         <a href="{% url 'visualizar_produtos' %}">Cancelar</a>
     </form>
     {% for message in messages %}
-        {{ message }}
+        <div class="erro">
+            {{ message }}
+        </div>
     {% endfor %}
 {% endblock %}

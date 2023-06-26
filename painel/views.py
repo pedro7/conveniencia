@@ -1,12 +1,9 @@
-from datetime import datetime
-from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
-from reportlab.pdfgen.canvas import Canvas
+from django.http import HttpRequest
+from django.shortcuts import render
+from django.utils import timezone
 
-from colaboradores.models import Colaborador
 from compras.models import Compra, CompraProduto
 
 

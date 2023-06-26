@@ -1,8 +1,9 @@
 from datetime import datetime
+from django.utils import timezone
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from reportlab.pdfgen.canvas import Canvas
 
 from colaboradores.models import Colaborador
@@ -20,8 +21,9 @@ def gerar_total_mensal(request: HttpRequest):
     p = Canvas(response)
     p.setFont("Helvetica", 12)  # Set the font and size
     p.drawString(50, 750, "Total mensal:")  # Write the text at the specified coordinates
+    mes_atual = timezone.now().month
     total_gasto = 0
-    for compra in Compra.objects.all():
+    for compra in Compra.objects.filter(data__month=mes_atual):
         for produto in compra.produtos.all():
             total_gasto += produto.preco
     p.drawString(50, 725, str(total_gasto))

@@ -5,11 +5,11 @@
 {% block main %}
     <form method="post" action="{% url 'cadastrar_usuario' %}">
         {% csrf_token %}
-        <input type="text" name="nome_usuario" placeholder="Nome de Usuário">
-        <input type="email" name="email" placeholder="Email">
-        <input type="text" name="nome" placeholder="Nome">
-        <input type="text" name="sobrenome" placeholder="Sobrenome">
-        <input type="password" name="senha" placeholder="Senha">
+        <input type="text" name="nome_usuario" placeholder="Nome de Usuário" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="nome" placeholder="Nome" required>
+        <input type="text" name="sobrenome" placeholder="Sobrenome" required>
+        <input type="password" name="senha" placeholder="Senha" required>
         <input type="submit" value="Cadastrar">
     </form>
     <table>

@@ -16,7 +16,9 @@
             <input type="submit" value="Adicionar no Carrinho">
         </form>
         {% for message in messages %}
-            {{ message }}
+            <div class="erro">
+                {{ message }}
+            </div>
         {% endfor %}
         <table>
             <thead>

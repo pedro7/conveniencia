@@ -20,6 +20,12 @@ body {
     
   }
 
+  .erro {
+    color: red;
+    display: flex;
+    justify-content: center;
+  }
+
   .form-group {
     margin-bottom: 15px;
     margin-right: 15px;

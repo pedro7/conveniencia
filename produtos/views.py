@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-
+from django.db.models import ProtectedError
 from .models import Produto, ProdutoForm
 
 
@@ -43,5 +43,8 @@ def editar_produto(request: HttpRequest, id):
 @login_required
 def excluir_produto(request: HttpRequest, id):
     if request.method == 'POST':
-        Produto.objects.get(id=id).delete()
+        try:
+            Produto.objects.get(id=id).delete()
+        except ProtectedError:
+            messages.error(request, 'Não é possível excluir pois o produto está vinculado a uma ou mais compras.')
         return redirect('visualizar_produtos')

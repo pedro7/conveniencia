@@ -8,17 +8,17 @@
             <tr>
                 <th>Colaborador</th>
                 <th>Data</th>
-                <th>Produtos</th>
+                <th>Total</th>
                 <th>Excluir</th>
             </tr>
         </thead>
         <tbody>
-            {% for compra in compras %}
+            {% for compra, total in compras.items %}
                 <tr>
                     <td>{{ compra.colaborador.nome }}</td>
                     <td>{{ compra.data }}</td>
                     <td>
-                        
+                        {{ total }}
                     </td>
                     <td>
                         <form method="post" action="{% url 'excluir_compra' compra.id %}">

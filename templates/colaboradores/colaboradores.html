@@ -12,7 +12,9 @@
         <input type="submit" value="Cadastrar">
     </form>
     {% for message in messages %}
-        {{ message }}
+        <div class="erro">
+            {{ message }}
+        </div>
     {% endfor %}
     <table>
         <thead>

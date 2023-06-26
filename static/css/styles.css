@@ -24,6 +24,12 @@ nav {
   height: 80px;
 }
 
+.erro {
+  color: red;
+  display: flex;
+  justify-content: center;
+}
+
 ul {
   list-style-type: none;
 }
