@@ -9,7 +9,6 @@
                 <th>Colaborador</th>
                 <th>Data</th>
                 <th>Total</th>
-                <th>Excluir</th>
             </tr>
         </thead>
         <tbody>
@@ -18,12 +17,26 @@
                     <td>{{ compra.colaborador.nome }}</td>
                     <td>{{ compra.data }}</td>
                     <td>{{ valor }}</td>
-                    <td>
-                        <form method="post" action="{% url 'excluir_compra' compra.id %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Excluir">
-                        </form>
-                    </td>
+                    <div class="modal">
+                        <div class="modal-content">
+                            <div class="modal-head">
+                                <h1>Produtos</h1>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    {% for compra_produtos in compra.compra_produtos.all %}
+                                        <li>{{ compra_produtos.produto.nome }} x{{ compra_produtos.quantidade }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="modal-foot">
+                                <form method="post" action="{% url 'excluir_compra' compra.id %}">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Excluir Compra">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </tr>
             {% endfor %}
         </tbody>
@@ -31,4 +44,14 @@
 
         </tfoot>
     </table>
+    {% for compra in compra_valores.keys %}
+        {% for produto in compra.produtos.all %}
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p>{{ produto }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
 {% endblock %}

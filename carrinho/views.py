@@ -59,7 +59,11 @@ def consultar_gasto_mensal(request: HttpRequest):
     for compra in compras:
         for compra_produto in compra.compra_produtos.all():
             gasto_mensal += compra_produto.produto.preco * compra_produto.quantidade
-    return render(request, 'carrinho/carrinho.html', {'gasto_mensal': gasto_mensal})
+    context = {
+        'carrinho': carrinho,
+        'gasto_mensal': gasto_mensal
+    }
+    return render(request, 'carrinho/carrinho.html', context)
 
 def _get_colaborador_valido(request, login, senha):
     try:
