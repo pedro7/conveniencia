@@ -25,30 +25,16 @@
                 <th>Nome</th>
                 <th>Administrador</th>
                 <th>Último Login</th>
-                <th>Editar</th>
-                <th>Excluir</th>
             </tr>
         </thead>
         <tbody>
             {% for usuario in usuarios %}
-                <tr>
+                <tr onclick="redirectToView('{{ usuario.username }}')">
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
                     <td>{{ usuario.is_superuser }}</td>
                     <td>{{ usuario.last_login }}</td>
-                    <td>
-                        <form method="get" action="{% url 'editar_usuario' usuario.username %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Editar">
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" action="{% url 'excluir_usuario' usuario.username %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Excluir">
-                        </form>
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>

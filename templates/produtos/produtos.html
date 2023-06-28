@@ -21,28 +21,14 @@
                 <th>Nome</th>
                 <th>Código de Barras</th>
                 <th>Preço</th>
-                <th>Editar</th>
-                <th>Excluir</th>
             </tr>
         </thead>
         <tbody>
             {% for produto in produtos %}
-                <tr>
+                <tr onclick="redirectToView('{{ produto.codigo_barras }}')">
                     <td>{{ produto.nome }}</td>
                     <td>{{ produto.codigo_barras }}</td>
                     <td>{{ produto.preco }}</td>
-                    <td>
-                        <form method="get" action="{% url 'editar_produto' produto.codigo_barras %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Editar">
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" action="{% url 'excluir_produto' produto.codigo_barras %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Excluir">
-                        </form>
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>

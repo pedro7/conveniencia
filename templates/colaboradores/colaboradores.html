@@ -23,38 +23,17 @@
                 <th>CPF</th>
                 <th>Login</th>
                 <th>Situação</th>
-                <th>Editar</th>
-                <th>Ativar/Inativar</th>
             </tr>
         </thead>
         <tbody>
             {% for colaborador in colaboradores %}
-                <tr>
+                <tr onclick="redirectToView('{{ colaborador.login }}')">
                     <td>{{ colaborador.nome }}</td>
                     <td>{{ colaborador.cpf }}</td>
                     <td>{{ colaborador.login }}</td>
                     <td>{{ colaborador.situacao }}</td>
-                    <td>
-                        <form method="get" action="{% url 'editar_colaborador' colaborador.login %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Editar">
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" action="{% url 'alterar_situacao' colaborador.login %}">
-                            {% csrf_token %}
-                            {% if colaborador.situacao == 'ativo' %}
-                                <input type="submit" value="Inativar">
-                            {% else %}
-                                <input type="submit" value="Ativar">
-                            {% endif %}
-                        </form>
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-
-        </tfoot>
     </table>
 {% endblock %}

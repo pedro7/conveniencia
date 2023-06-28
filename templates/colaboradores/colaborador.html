@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Colaborador{% endblock %}
+
+{% block main %}
+    <form method="post" action="{% url 'editar_colaborador' colaborador.login %}">
+        {% csrf_token %}
+        <input type="text" value="{{ colaborador.nome }}" name="nome" placeholder="Nome" required>
+        <input type="text" value="{{ colaborador.cpf }}" name="cpf" placeholder="CPF" required>
+        <input type="text" value="{{ colaborador.login }}" name="login" placeholder="Login" required>
+        <input type="submit" value="Editar">
+    </form>
+    <form method="post" action="{% url 'editar_senha_colaborador' colaborador.login %}">
+        {% csrf_token %}
+        <input type="password" name="senha_atual" placeholder="Senha atual" required>
+        <input type="password" name="senha_nova" placeholder="Senha nova" required>
+        <input type="submit" value="Editar">
+    </form>
+    <form method="post" action="{% url 'alterar_situacao' colaborador.login %}">
+        {% csrf_token %}
+        {% if colaborador.situacao == 'ativo' %}
+            <input type="submit" value="Inativar">
+        {% elif colaborador.situacao == 'inativo' %}
+            <input type="submit" value="Ativar">
+        {% endif %}
+    </form>
+    <a href="{% url 'visualizar_colaboradores' %}">Voltar</a>
+    {% for message in messages %}
+        <div class="erro">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endblock %}

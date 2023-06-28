@@ -13,3 +13,4 @@ class CompraProduto(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='compra_produtos')
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     quantidade = models.IntegerField()
+    preco_unitario = models.DecimalField(max_digits=4, decimal_places=2)

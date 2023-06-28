@@ -20,7 +20,7 @@ def _get_total_vendido_hoje():
     total_vendido_hoje = 0
     for compra in Compra.objects.filter(data__date=timezone.now().date()):
         for compra_produto in compra.compra_produtos.all():
-            total_vendido_hoje += compra_produto.produto.preco * compra_produto.quantidade
+            total_vendido_hoje += compra_produto.preco_unitario * compra_produto.quantidade
     return total_vendido_hoje
 
 def _get_produtos_mais_consumidos_hoje():

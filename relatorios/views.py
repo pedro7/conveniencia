@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils import timezone
 from reportlab.pdfgen.canvas import Canvas
 
@@ -13,14 +13,14 @@ from compras.models import Compra, CompraProduto
 @login_required
 def visualizar_relatorios(request: HttpRequest):
     if not request.user.is_superuser:
-        return HttpResponse('Permissão insuficiente')
+        return redirect('entrar')
     return render(request, 'relatorios/relatorios.html')
 
 # limpar
 @login_required
 def gerar_total_mensal(request: HttpRequest):
     if not request.user.is_superuser:
-        return HttpResponse('Permissão insuficiente')
+        return redirect('entrar')
     response = HttpResponse()
     response['Content-Disposition'] = 'attachment; filename="Total_Mensal.pdf"'
     p = Canvas(response)
@@ -30,7 +30,7 @@ def gerar_total_mensal(request: HttpRequest):
     total_gasto = 0
     for compra in Compra.objects.filter(data__month=mes_atual):
         for compra_produto in CompraProduto.objects.filter(compra=compra):
-            total_gasto += compra_produto.produto.preco * compra_produto.quantidade
+            total_gasto += compra_produto.preco_unitario * compra_produto.quantidade
     p.drawString(50, 725, str(total_gasto))
     p.showPage()
     p.save()
@@ -40,7 +40,7 @@ def gerar_total_mensal(request: HttpRequest):
 @login_required
 def gerar_consumo_geral(request: HttpRequest):
     if not request.user.is_superuser:
-        return HttpResponse('Permissão insuficiente')
+        return redirect('entrar')
     data1 = datetime.fromisoformat(request.GET['data']).strftime("%Y-%m-%d %H:%M:%S.%f")
     data2 = datetime.fromisoformat(request.GET['dataa']).strftime("%Y-%m-%d %H:%M:%S.%f")
     response = HttpResponse()
@@ -73,7 +73,7 @@ def gerar_consumo_geral(request: HttpRequest):
                 y = 750
             compra_produtos = CompraProduto.objects.filter(compra=compra)
             for compra_produto in compra_produtos:
-                p.drawString(100, y, f'{compra_produto.produto.nome}   x{compra_produto.quantidade}   R${compra_produto.produto.preco * compra_produto.quantidade}')
+                p.drawString(100, y, f'{compra_produto.produto.nome}   x{compra_produto.quantidade}   R${compra_produto.preco_unitario * compra_produto.quantidade}')
                 y -= 25
                 if y <= 100:
                     p.showPage()

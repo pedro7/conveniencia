@@ -3,23 +3,26 @@
 * {
   margin: 0;
   padding: 0;
-}
-
-body {
-  background: azure;
   font-family: 'Open Sans', sans-serif;
   font-size: x-large;
 }
 
+body {
+  background-color: azure;
+}
+
 nav {
+  display: flex;
+  /* 3F52B6 */
   background-color: #36304A;
   justify-content: center;
-  height: 5vh;
+  padding: 1vw;
   width: 100vw;
 }
 
 nav li {
   display: inline;
+  padding: 5vh;
 }
 
 nav li a {
@@ -33,13 +36,18 @@ ul {
 }
 
 table {
+  table-layout: fixed;
   border-collapse: collapse;
-	border-radius: 10px;
+	border-radius: 15px;
 	overflow: hidden;
   margin: 5vh;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.compras-subtable {
+  display: none;
 }
 
 thead {
@@ -58,10 +66,11 @@ tbody tr:hover {
   cursor: pointer;
 }
 
-tfoot {
+table tfoot {
   background-color: floralwhite;
   font-weight: bold;
   text-align: left;
+
 }
 
 tr:nth-of-type(even) {
@@ -95,7 +104,7 @@ td {
 
 .modal-content {
   margin: 15% auto;
-  width: 25vw;
+  width: 40vw;
   height: 50vh;
   border-radius: 25px;
   text-align: center;
@@ -131,11 +140,15 @@ td {
   margin-right: auto;
 }
 
-
-form:not(table form) {
+form {
   display: flex;
   justify-content: center;
   margin: 20px;
+}
+
+main a {
+  display: flex;
+  justify-content: center;
 }
 
 .erro {
@@ -156,7 +169,44 @@ h1 {
   font-weight: bold;
 }
 
+
+
+
+
+h1 {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+}
+
 .btn {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.add-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3vw;
+  height: 6vh;
+  border-radius: 50%;
+  background-color: #FD437F;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+}
+
+button {
+	font: inherit;
+	cursor: pointer;
+}
+
+.centered-button {
   display: flex;
   justify-content: center;
 }
