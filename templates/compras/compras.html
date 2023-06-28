@@ -25,7 +25,7 @@
                             <div class="modal-body">
                                 <ul>
                                     {% for compra_produtos in compra.compra_produtos.all %}
-                                        <li>{{ compra_produtos.produto.nome }} x{{ compra_produtos.quantidade }}</li>
+                                        <li>{{ compra_produtos.produto.nome }} x{{ compra_produtos.quantidade }} {{ compra_produtos.preco_unitario }}</li>
                                     {% endfor %}
                                 </ul>
                             </div>
