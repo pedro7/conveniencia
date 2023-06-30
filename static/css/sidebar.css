@@ -3,9 +3,11 @@
 :root {
     --header-height: 3rem;
     --nav-width: 68px;
-    --first-color: #4723D9;
+    /* --first-color: #4723D9; */
+    --first-color: #36304A;
     --first-color-light: #AFA5D9;
     --white-color: #F7F6FB;
+    --yellow-color: #F7FE2E;
     --body-font: 'Nunito', sans-serif;
     --normal-font-size: 1rem;
     --z-fixed: 100
@@ -22,7 +24,7 @@ body {
     margin: var(--header-height) 0 0 0;
     padding: 0 1rem;
     font-family: var(--body-font);
-    font-size: var(--normal-font-size);
+    font-size: larger;
     transition: .5s
 }
 
@@ -115,7 +117,7 @@ a {
 }
 
 .nav_link:hover {
-    color: var(--white-color)
+    color: var(--yellow-color)
 }
 
 .nav_icon {
@@ -131,7 +133,7 @@ a {
 }
 
 .active {
-    color: var(--white-color)
+    color: var(--yellow-color)
 }
 
 .active::before {
@@ -140,7 +142,7 @@ a {
     left: 0;
     width: 2px;
     height: 32px;
-    background-color: var(--white-color)
+    background-color: var(--yellow-color)
 }
 
 .height-100 {

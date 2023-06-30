@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from compras.models import Compra
@@ -32,3 +32,7 @@ def _get_produtos_mais_consumidos_hoje():
             else:
                 produtos_mais_consumidos_hoje[compra_produto.produto] = compra_produto.quantidade
     return sorted(produtos_mais_consumidos_hoje.items(), key=lambda x: x[1], reverse=True)
+
+@login_required
+def redirecionar_painel(request: HttpRequest):
+    return redirect('visualizar_painel')

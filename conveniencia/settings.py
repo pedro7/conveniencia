@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'painel',
-    'usuarios',
     'colaboradores',
     'produtos',
+    'usuarios',
+    'autenticacao',
     'carrinho',
     'compras',
-    'autenticacao',
     'relatorios'
 ]
 
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'conveniencia.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

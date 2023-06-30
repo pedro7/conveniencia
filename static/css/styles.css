@@ -1,38 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
-* {
+/* * {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans', sans-serif;
   font-size: x-large;
-}
+} */
 
-body {
-  background-color: azure;
-}
-
-nav {
-  display: flex;
-  /* 3F52B6 */
-  background-color: #36304A;
-  justify-content: center;
-  padding: 1vw;
-  width: 100vw;
-}
-
-nav li {
-  display: inline;
-  padding: 5vh;
-}
-
-nav li a {
-  color: yellow;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-ul {
-  list-style-type: none;
+main {
+  font-family: 'Open Sans', sans-serif;
+  font-size: x-large;
 }
 
 table {
@@ -44,10 +21,6 @@ table {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.compras-subtable {
-  display: none;
 }
 
 thead {
@@ -146,11 +119,6 @@ form {
   margin: 20px;
 }
 
-main a {
-  display: flex;
-  justify-content: center;
-}
-
 .erro {
   color: red;
   display: flex;
@@ -169,24 +137,12 @@ h1 {
   font-weight: bold;
 }
 
-
-
-
-
-h1 {
-  display: flex;
-  justify-content: center;
-  font-weight: bold;
-}
-
 .btn {
   display: flex;
   justify-content: center;
 }
 
-
-
-.add-button {
+/* .add-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -209,4 +165,4 @@ button {
 .centered-button {
   display: flex;
   justify-content: center;
-}
+} */
