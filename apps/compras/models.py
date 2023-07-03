@@ -1,6 +1,6 @@
 from django.db import models
-from colaboradores.models import Colaborador
-from produtos.models import Produto
+from apps.colaboradores.models import Colaborador
+from apps.produtos.models import Produto
 
 
 class Compra(models.Model):

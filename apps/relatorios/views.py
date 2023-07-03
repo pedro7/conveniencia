@@ -6,8 +6,8 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from reportlab.pdfgen.canvas import Canvas
 
-from colaboradores.models import Colaborador
-from compras.models import Compra, CompraProduto
+from apps.colaboradores.models import Colaborador
+from apps.compras.models import Compra, CompraProduto
 
 
 @login_required

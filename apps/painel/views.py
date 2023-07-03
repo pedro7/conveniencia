@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from compras.models import Compra
+from apps.compras.models import Compra
 
 
 @login_required

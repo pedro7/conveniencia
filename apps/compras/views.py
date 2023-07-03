@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
-from compras.models import Compra
+from apps.compras.models import Compra
 
 
 @login_required

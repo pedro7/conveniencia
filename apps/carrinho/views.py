@@ -6,9 +6,9 @@ from django.contrib.auth.hashers import check_password
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
-from colaboradores.models import Colaborador
-from compras.models import Compra
-from produtos.models import Produto
+from apps.colaboradores.models import Colaborador
+from apps.compras.models import Compra
+from apps.produtos.models import Produto
 
 
 carrinho: list[Produto] = []
