@@ -23,8 +23,10 @@ urlpatterns = [
     path('', include('apps.painel.urls')),
     path('colaboradores/', include('apps.colaboradores.urls')),
     path('produtos/', include('apps.produtos.urls')),
+    path('estoque/', include('apps.stock.urls')),
     path('usuarios/', include('apps.usuarios.urls')),
     path('carrinho/', include('apps.carrinho.urls')),
     path('compras/', include('apps.compras.urls')),
-    path('relatorios/', include('apps.relatorios.urls'))
+    path('relatorios/', include('apps.relatorios.urls')),
+    path('emails/', include('apps.emails.urls'))
 ]

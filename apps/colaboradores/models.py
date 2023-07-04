@@ -35,9 +35,3 @@ class Colaborador(models.Model):
         expected_digit = (sum_of_products * 10 % 11) % 10
         if numbers[10] != expected_digit:
             raise ValidationError('Cpf inválido.')
-    
-
-class ColaboradorForm(ModelForm):
-    class Meta:
-        model = Colaborador
-        fields = ['nome', 'cpf', 'login', 'senha']

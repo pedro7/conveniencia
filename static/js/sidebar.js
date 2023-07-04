@@ -26,20 +26,23 @@ function colorLink() {
         links.push(l)
     });
 
-    if (currentURL.includes('/colaboradores/')) {
+    if (currentURL.includes('colaboradores')) {
         links[1].classList.add('active')
     }
-    else if (currentURL.includes('/produtos/')) {
+    else if (currentURL.includes('produtos')) {
         links[2].classList.add('active')
     }
-    else if (currentURL.includes('/usuarios/')) {
+    else if (currentURL.includes('usuarios')) {
         links[3].classList.add('active')
     }
-    else if (currentURL.includes('/compras/')) {
+    else if (currentURL.includes('compras')) {
         links[4].classList.add('active')
     }
-    else if (currentURL.includes('/relatorios/')) {
+    else if (currentURL.includes('relatorios')) {
         links[5].classList.add('active')
+    }
+    else if (currentURL.includes('emails')) {
+        links[6].classList.add('active')
     }
     else {
         links[0].classList.add('active')

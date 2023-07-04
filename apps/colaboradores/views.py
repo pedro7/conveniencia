@@ -4,7 +4,8 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
-from .models import Colaborador, ColaboradorForm
+from .forms import ColaboradorForm
+from .models import Colaborador
 
 
 @login_required

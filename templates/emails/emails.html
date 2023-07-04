@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Emails{% endblock %}
+
+{% block main %}
+    <form method="post" action="{% url 'enviar_email' %}">
+        {% csrf_token %}
+        <input type="text" name="destinatario" placeholder="Destinatário">
+        <input type="text" name="assunto" placeholder="Assunto">
+        <input type="text" name="mensagem" placeholder="Mensagem">
+        <input type="submit" value="Enviar">
+    </form>
+{% endblock %}

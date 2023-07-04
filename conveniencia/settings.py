@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'apps.painel',
     'apps.colaboradores',
     'apps.produtos',
+    'apps.stock',
     'apps.usuarios',
     'apps.autenticacao',
     'apps.carrinho',
     'apps.compras',
-    'apps.relatorios'
+    'apps.relatorios',
+    'apps.emails'
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,17 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/entrar/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'mail.sci10.com.br'
+
+EMAIL_PORT = 587
+
+EMAIL_HOST_USER = 'testeacademia@sci.com.br'
+
+EMAIL_HOST_PASSWORD = '}g3{JUQL}k@Y'
+
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = 'testeacademia@sci.com.br'
