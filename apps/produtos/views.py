@@ -1,51 +1,35 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.db.models import ProtectedError
-from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
-from .models import Produto, ProdutoForm
+from .models import Produto
 
 
-@login_required
-def visualizar_produtos(request: HttpRequest):
-    produtos = Produto.objects.all()
-    return render(request, 'produtos/produtos.html', {'produtos': produtos})
+class ProdutoListView(ListView):
+    model = Produto
+    template_name = 'produtos/produtos.html'
+    context_object_name = 'produtos'
 
-@login_required
-def cadastrar_produto(request: HttpRequest):
-    form = ProdutoForm(request.POST)
-    if form.is_valid():
-        form.save()
-        return redirect('visualizar_produtos')
-    for error_list in form.errors.values():
-        for error in error_list:
-            messages.error(request, error)
-    return redirect('visualizar_produtos')
 
-@login_required
-def visualizar_produto(request: HttpRequest, codigo_barras):
-    produto = Produto.objects.get(codigo_barras=codigo_barras)
-    return render(request, 'produtos/produto.html', {'produto': produto})
-    
-@login_required
-def editar_produto(request: HttpRequest, codigo_barras):
-    produto = Produto.objects.get(codigo_barras=codigo_barras)
-    form = ProdutoForm(request.POST, instance=produto)
-    if form.is_valid():
-        form.save()
-        return redirect('visualizar_produtos')
-    for error_list in form.errors.values():
-        for error in error_list:
-            messages.error(request, error)
-    return render(request, 'produtos/produto.html', {'produto': produto})
+class ProdutoCreateView(CreateView):
+    model = Produto
+    fields = '__all__'
+    template_name = 'produtos/cadastrar_produto.html'
+    success_url = '/produtos/'
 
-@login_required
-def excluir_produto(request: HttpRequest, codigo_barras):
-    produto = Produto.objects.get(codigo_barras=codigo_barras)
-    try:
-        produto.delete()
-        return redirect('visualizar_produtos')
-    except ProtectedError:
-        messages.error(request, 'Não é possível excluir pois o produto está vinculado a uma ou mais compras.')
-        return render(request, 'produtos/produto.html', {'produto': produto})
+
+class ProdutoDetailView(DetailView):
+    model = Produto
+    template_name = 'produtos/produto.html'
+    context_object_name = 'produto'
+    slug_field = 'codigo_barras'
+    slug_url_kwarg = 'codigo_barras'
+
+
+class ProdutoUpdateView(UpdateView):
+    model = Produto
+    fields = '__all__'
+    template_name = 'produtos/cadastrar_produto.html'
+    success_url = '/produtos/'
+    slug_field = 'codigo_barras'
+    slug_url_kwarg = 'codigo_barras'

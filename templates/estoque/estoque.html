@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Emails{% endblock %}
+{% block title %}Estoque{% endblock %}
 
 {% block main %}
     <table>
@@ -13,9 +13,9 @@
             </tr>
         </thead>
         <tbody>
-            {% for stock in stocks %}
+            {% for estoque in estoques %}
                 <tr>
-                    <td>{{ stock.product.nome }}</td>
+                    <td>{{ estoque.produto.nome }}</td>
                     <td></td>
                 </tr>
             {% endfor %}

@@ -3,24 +3,5 @@
 {% block title %}Editar Usuário{% endblock %}
 
 {% block main %}
-    <form method="post" action="{% url 'editar_usuario' usuario.username %}">
-        {% csrf_token %}
-        <input type="text" value="{{ usuario.username }}" name="nome_usuario" placeholder="Nome de Usuário" required>
-        <input type="email" value="{{ usuario.email }}" name="email" placeholder="Email" required>
-        <input type="text" value="{{ usuario.first_name }}" name="nome" placeholder="Nome" required>
-        <input type="text" value="{{ usuario.last_name }}" name="sobrenome" placeholder="Sobrenome" required>
-        <input type="submit" value="Editar">
-    </form>
-    <form method="post" action="{% url 'editar_senha_usuario' usuario.username %}">
-        {% csrf_token %}
-        <input type="password" name="senha_atual" placeholder="Senha atual" required>
-        <input type="password" name="senha_nova" placeholder="Senha nova" required>
-        <input type="submit" value="Editar">
-    </form>
-    <a href="{% url 'visualizar_usuarios' %}">Voltar</a>
-    {% for message in messages %}
-        <div class="erro">
-            {{ message }}
-        </div>
-    {% endfor %}
+    {{ usuario.username }}
 {% endblock %}

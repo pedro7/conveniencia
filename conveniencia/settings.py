@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'apps.painel',
     'apps.colaboradores',
     'apps.produtos',
-    'apps.stock',
+    'apps.estoque',
     'apps.usuarios',
     'apps.autenticacao',
     'apps.carrinho',

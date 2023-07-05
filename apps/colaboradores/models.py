@@ -1,6 +1,6 @@
+from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.forms import ModelForm
 
 
 class Colaborador(models.Model):
@@ -8,11 +8,15 @@ class Colaborador(models.Model):
         ('ativo', 'Ativo'),
         ('inativo', 'Inativo')
     ]
+    login = models.CharField(max_length=32, unique=True)
+    email = models.EmailField(unique=True)
     nome = models.CharField(max_length=100)
     cpf = models.CharField(max_length=11, unique=True)
-    login = models.CharField(max_length=32, unique=True)
     senha = models.CharField(max_length=255)
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
+
+    def save(self):
+        self.senha = make_password(self.senha)
 
     def clean(self):
         self.clean_cpf()
