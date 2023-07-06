@@ -1,59 +1,116 @@
 from collections import Counter
-from datetime import date, timedelta
 
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
+from django.views.generic import TemplateView
 
 from apps.colaboradores.models import Colaborador
 from apps.compras.models import Compra
 from apps.produtos.models import Produto
+from common.util.vendas import get_referencia_atual, get_referencia_passada
 
 
-carrinho: list[Produto] = []
+class CarrinhoView(TemplateView):
+    template_name = 'carrinho/carrinho.html'
 
-def visualizar_carrinho(request: HttpRequest):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carrinho = self.request.session.get('carrinho', [])
+        total = sum(float(produto['preco']) for produto in carrinho)
+        context['carrinho'] = carrinho
+        context['total'] = total
+        return context
+
+
+def visualizar_carrinho(request):
+    carrinho = request.session.get('carrinho', [])
     total = 0
     for produto in carrinho:
-        total += produto.preco
+        total += float(produto['preco'])
     context = {
         'carrinho': carrinho,
         'total': total
     }
     return render(request, 'carrinho/carrinho.html', context)
 
-def adicionar_produto(request: HttpRequest):
+class AdicionarProdutoView(View):
+    def post(self, request):
+        codigo_barras = request.POST.get('codigo_barras')
+        produto = get_object_or_404(Produto, codigo_barras=codigo_barras)
+        
+        carrinho = request.session.get('carrinho', [])
+        produto_data = {
+            'id': produto.pk,
+            'preco': str(produto.preco),
+        }
+        carrinho.append(produto_data)
+        request.session['carrinho'] = carrinho
+        
+        return redirect('visualizar_carrinho')
+    
+
+def adicionar_produto(request):
     codigo_barras = request.POST['codigo_barras']
     try:
         produto = Produto.objects.get(codigo_barras=codigo_barras)
     except Produto.DoesNotExist:
         messages.error(request, 'Produto não cadastrado.')
         return redirect('visualizar_carrinho')
-    carrinho.append(produto)
-    return redirect('visualizar_carrinho')
-    
-def remover_produto(request: HttpRequest, posicao):
-    carrinho.pop(posicao - 1)
-    return redirect('visualizar_carrinho')
-        
-def esvaziar_carrinho(request: HttpRequest):
-    carrinho.clear()
+
+    carrinho = request.session.get('carrinho', [])
+    produto_data = {
+        'id': produto.pk,
+        'preco': str(produto.preco),
+    }
+    carrinho.append(produto_data)
+    request.session['carrinho'] = carrinho
+
     return redirect('visualizar_carrinho')
 
-def finalizar_compra(request: HttpRequest):
+class RemoverProdutoView(View):
+    def get(self, request, posicao):
+        carrinho = request.session.get('carrinho', [])
+        if posicao >= 1 and posicao <= len(carrinho):
+            carrinho.pop(posicao - 1)
+            request.session['carrinho'] = carrinho
+        return redirect('visualizar_carrinho')
+    
+def remover_produto(request, posicao):
+    carrinho = request.session.get('carrinho', [])
+    if posicao >= 1 and posicao <= len(carrinho):
+        carrinho.pop(posicao - 1)
+        request.session['carrinho'] = carrinho
+    return redirect('visualizar_carrinho')
+
+def esvaziar_carrinho(request):
+    request.session['carrinho'] = []
+    return redirect('visualizar_carrinho')
+
+def finalizar_compra(request):
     colaborador = _get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
     if not colaborador:
         return redirect('visualizar_carrinho')
+    
+    carrinho = request.session.get('carrinho', [])
     compra = Compra.objects.create(colaborador=colaborador)
-    counter = Counter(carrinho)
+    lista = []
+    for produto in carrinho:
+        lista.append(produto['id'])
+        print(lista)
+    counter = Counter(lista)
+    print(counter)
     for produto, quantidade in counter.items():
+        print(produto, quantidade)
         through_defaults = {
             'quantidade': quantidade,
-            'preco_unitario': produto.preco
+            'preco_unitario': Produto.objects.get(id=produto).preco
         }
         compra.produtos.add(produto, through_defaults=through_defaults)
-    carrinho.clear()
+    
+    request.session['carrinho'] = []
     return redirect('visualizar_carrinho')
 
 def consultar_gasto_mensal(request: HttpRequest):
@@ -61,16 +118,16 @@ def consultar_gasto_mensal(request: HttpRequest):
     if not colaborador:
         return redirect('visualizar_carrinho')
     gasto_referencia_atual = 0
-    referencia_atual = _get_referencia_atual()
+    referencia_atual = get_referencia_atual()
     for compra in Compra.objects.filter(colaborador=colaborador, data__gte=referencia_atual):
         for compra_produto in compra.compra_produtos.all():
             gasto_referencia_atual += compra_produto.preco_unitario * compra_produto.quantidade
     gasto_referencia_passada = 0
-    for compra in Compra.objects.filter(colaborador=colaborador, data__range=[_get_referencia_passada(referencia_atual), referencia_atual]):
+    for compra in Compra.objects.filter(colaborador=colaborador, data__range=[get_referencia_passada(referencia_atual), referencia_atual]):
         for compra_produto in compra.compra_produtos.all():
             gasto_referencia_passada += compra_produto.preco_unitario * compra_produto.quantidade
     context = {
-        'carrinho': carrinho,
+        'carrinho': request.session.get('carrinho', []),
         'gasto_mensal': gasto_referencia_atual,
         'gasto_referencia_passada': gasto_referencia_passada
     }
@@ -89,19 +146,3 @@ def _get_colaborador_valido(request, login, senha):
         messages.error(request, 'Senha incorreta.')
         return None
     return colaborador
-
-def _get_referencia_atual():
-    data_hoje = date.today()
-    if data_hoje.day >= 26:
-        referencia_atual = data_hoje.replace(day=26)
-    else:
-        ultimo_dia_mes_passado = data_hoje.replace(day=1) - timedelta(days=1)
-        referencia_atual = ultimo_dia_mes_passado.replace(day=26)
-    return referencia_atual
-
-def _get_referencia_passada(referencia_atual):
-    if referencia_atual.month == 1:
-        referencia_passada = referencia_atual.replace(month=12, year=referencia_atual.year - 1)
-    else:
-        referencia_passada = referencia_atual.replace(month=referencia_atual.month - 1)
-    return referencia_passada

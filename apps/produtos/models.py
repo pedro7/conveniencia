@@ -14,7 +14,8 @@ class Produto(models.Model):
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
 
     def clean(self):
-        self.clean_codigo_barras()
+        #self.clean_codigo_barras()
+        pass
 
     def clean_codigo_barras(self):
         if not check_code_ean13(self.codigo_barras):

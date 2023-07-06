@@ -1,24 +1,13 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.contrib.auth.views import LoginView, LogoutView
 
 
-def entrar(request: HttpRequest):
-    if request.method == 'GET':
-        return render(request, 'autenticacao/entrar.html')
-    elif request.method == 'POST':
-        nome_usuario = request.POST['nome_usuario']
-        senha = request.POST['senha']
-        usuario = authenticate(request, username=nome_usuario, password=senha)
-        if usuario:
-            login(request, usuario)
-            return redirect('visualizar_painel')
-        else:
-            messages.error(request, 'Credenciais incorretas.')
-            return redirect('entrar')
+class EntrarView(LoginView):
+    template_name = 'autenticacao/entrar.html'
 
-def sair(request: HttpRequest):
-    if request.user:
-        logout(request)
-    return redirect('entrar')
+    def form_invalid(self, form):
+        messages.error(self.request, 'Credenciais incorretas.')
+        return super().form_invalid(form)
+
+class SairView(LogoutView):
+    next_page = 'entrar'

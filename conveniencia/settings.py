@@ -138,7 +138,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Login
+
 LOGIN_URL = '/entrar/'
+
+LOGIN_REDIRECT_URL = '/'
+
+# Email
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

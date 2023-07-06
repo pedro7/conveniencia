@@ -1,6 +1,5 @@
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic.list import ListView
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
 from .models import Produto
 
@@ -13,7 +12,7 @@ class ProdutoListView(ListView):
 
 class ProdutoCreateView(CreateView):
     model = Produto
-    fields = '__all__'
+    fields = ['nome', 'codigo_barras', 'preco']
     template_name = 'produtos/cadastrar_produto.html'
     success_url = '/produtos/'
 

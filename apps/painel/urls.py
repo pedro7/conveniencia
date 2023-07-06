@@ -1,8 +1,8 @@
 from django.urls import path
 
-from . import views
+from .views import PainelView, RedirecionarPainelView
 
 urlpatterns = [
-    path('', views.visualizar_painel, name='visualizar_painel'),
-    path('painel/', views.redirecionar_painel)
+    path('', PainelView.as_view(), name='visualizar_painel'),
+    path('painel/', RedirecionarPainelView.as_view())
 ]
