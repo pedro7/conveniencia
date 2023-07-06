@@ -15,11 +15,9 @@ class Colaborador(models.Model):
     senha = models.CharField(max_length=255)
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
 
-    def save(self):
-        self.senha = make_password(self.senha)
-
     def clean(self):
-        self.clean_cpf()
+        #self.clean_cpf()
+        pass
 
     def clean_cpf(self):
         # if not match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', self.cpf):
