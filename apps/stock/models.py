@@ -1,7 +1,7 @@
 from django.db import models
 
-from apps.produtos.models import Produto
+from apps.products.models import Product
 
 
 class Stock(models.Model):
-    product = models.OneToOneField(Produto, models.CASCADE)
+    product = models.OneToOneField(Product, models.CASCADE)
