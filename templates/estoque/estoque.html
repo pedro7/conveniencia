@@ -16,7 +16,7 @@
             {% for estoque in estoques %}
                 <tr>
                     <td>{{ estoque.produto.nome }}</td>
-                    <td></td>
+                    <td>{{ estoque.quantidade }}</td>
                 </tr>
             {% endfor %}
         </tbody>

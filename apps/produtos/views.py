@@ -1,5 +1,7 @@
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.shortcuts import redirect
+from django.views.generic import CreateView, ListView, UpdateView
+
+from apps.estoque.models import Estoque
 
 from .models import Produto
 
@@ -16,13 +18,10 @@ class ProdutoCreateView(CreateView):
     template_name = 'produtos/cadastrar_produto.html'
     success_url = '/produtos/'
 
-
-class ProdutoDetailView(DetailView):
-    model = Produto
-    template_name = 'produtos/produto.html'
-    context_object_name = 'produto'
-    slug_field = 'codigo_barras'
-    slug_url_kwarg = 'codigo_barras'
+    def form_valid(self, form):
+        produto = form.save()
+        Estoque.objects.create(produto=produto)
+        return redirect('visualizar_produtos')
 
 
 class ProdutoUpdateView(UpdateView):

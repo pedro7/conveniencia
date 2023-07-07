@@ -2,8 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, RedirectView
 
 from apps.compras.models import Compra
-from common.util.vendas import (get_produtos_mais_consumidos_hoje,
-                                get_total_vendido_hoje)
+from util.vendas import (get_produtos_baixo_estoque,
+                         get_produtos_mais_consumidos_hoje,
+                         get_total_vendido_hoje)
 
 
 class PainelView(LoginRequiredMixin, ListView):
@@ -14,6 +15,7 @@ class PainelView(LoginRequiredMixin, ListView):
         context = super().get_context_data()
         context['total_vendido_hoje'] = get_total_vendido_hoje()
         context['produtos_mais_consumidos_hoje'] = get_produtos_mais_consumidos_hoje()
+        context['produtos_baixo_estoque'] = get_produtos_baixo_estoque()
         return context
 
 

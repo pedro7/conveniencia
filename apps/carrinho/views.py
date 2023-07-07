@@ -10,7 +10,8 @@ from django.views.generic import TemplateView
 from apps.colaboradores.models import Colaborador
 from apps.compras.models import Compra
 from apps.produtos.models import Produto
-from common.util.vendas import get_referencia_atual, get_referencia_passada
+from util.emails import enviar_email_ultima_compra
+from util.vendas import get_referencia_atual, get_referencia_passada
 
 
 class CarrinhoView(TemplateView):
@@ -67,9 +68,7 @@ class FinalizarCompraView(View):
         lista = []
         for produto in carrinho:
             lista.append(produto['id'])
-            print(lista)
         counter = Counter(lista)
-        print(counter)
         for produto, quantidade in counter.items():
             print(produto, quantidade)
             through_defaults = {
@@ -77,7 +76,7 @@ class FinalizarCompraView(View):
                 'preco_unitario': Produto.objects.get(id=produto).preco
             }
             compra.produtos.add(produto, through_defaults=through_defaults)
-    
+        enviar_email_ultima_compra(colaborador)
         request.session['carrinho'] = []
         return redirect('visualizar_carrinho')
 

@@ -1,7 +1,9 @@
 from datetime import date, timedelta
+
 from django.utils import timezone
 
 from apps.compras.models import Compra
+from apps.produtos.models import Produto
 
 
 def get_total_vendido_hoje():
@@ -36,3 +38,10 @@ def get_referencia_passada(referencia_atual):
     else:
         referencia_passada = referencia_atual.replace(month=referencia_atual.month - 1)
     return referencia_passada
+
+def get_produtos_baixo_estoque():
+    produtos_baixo_estoque = []
+    for produto in Produto.objects.all():
+        if produto.estoque.quantidade < 10:
+            produtos_baixo_estoque.append(produto)
+    return produtos_baixo_estoque

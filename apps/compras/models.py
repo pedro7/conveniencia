@@ -8,6 +8,11 @@ class Compra(models.Model):
     produtos = models.ManyToManyField(Produto, through='CompraProduto')
     data = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        compraprodutos = self.compra_produtos.all()
+        produtos_info = ", ".join([f"{cp.produto} ({cp.quantidade})" for cp in compraprodutos])
+        return f"Compra ID: {self.id}, Colaborador: {self.colaborador}, Produtos: {produtos_info}, Data: {self.data}"
+
 
 class CompraProduto(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='compra_produtos')
