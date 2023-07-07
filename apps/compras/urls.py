@@ -1,8 +1,8 @@
 from django.urls import path
 
-from . import views
+from .views import CompraDeleteView, ComprasListView
 
 urlpatterns = [
-    path('', views.visualizar_compras, name='visualizar_compras'),
-    path('excluir/<int:id>/', views.excluir_compra, name='excluir_compra')
+    path('', ComprasListView.as_view(), name='visualizar_compras'),
+    path('excluir/<int:pk>/', CompraDeleteView.as_view(), name='excluir_compra')
 ]

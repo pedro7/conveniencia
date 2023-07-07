@@ -1,27 +1,28 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.views.generic import DeleteView, ListView
 
 from apps.compras.models import Compra
 
 
-@login_required
-def visualizar_compras(request: HttpRequest):
-    if not request.user.is_superuser:
-        return redirect('entrar')
-    valores_totais = []
-    compras = Compra.objects.all()
-    for compra in compras:
-        total = 0
-        for compra_produto in compra.compra_produtos.all():
-            total += compra_produto.preco_unitario * compra_produto.quantidade
-        valores_totais.append(total)
-    compras_valores = {k: v for k, v in zip(compras, valores_totais)}
-    return render(request, 'compras/compras.html', {'compras_valores': compras_valores})
+class ComprasListView(ListView):
+    model = Compra
+    template_name = 'compras/compras.html'
+    context_object_name = 'compras_valores'
 
-@login_required
-def excluir_compra(request: HttpRequest, id):
-    if not request.user.is_superuser:
-        return redirect('entrar')
-    Compra.objects.get(id=id).delete()
-    return redirect('visualizar_compras')
+    def get_queryset(self):
+        if not self.request.user.is_superuser:
+            return Compra.objects.none()
+        
+        compras = super().get_queryset()
+        valores_totais = []
+        for compra in compras:
+            total = 0
+            for compra_produto in compra.compra_produtos.all():
+                total += compra_produto.preco_unitario * compra_produto.quantidade
+            valores_totais.append(total)
+        compras_valores = {k: v for k, v in zip(compras, valores_totais)}
+        return compras_valores
+
+
+class CompraDeleteView(DeleteView):
+    model = Compra
+    success_url = '/compras/'

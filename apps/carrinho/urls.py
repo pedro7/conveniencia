@@ -1,12 +1,14 @@
 from django.urls import path
 
-from . import views
+from .views import (AdicionarProdutoView, CarrinhoView,
+                    ConsultarGastoMensalView, EsvaziarCarrinhoView,
+                    FinalizarCompraView, RemoverProdutoView)
 
 urlpatterns = [
-    path('', views.CarrinhoView.as_view(), name='visualizar_carrinho'),
-    path('adicionar/', views.AdicionarProdutoView.as_view(), name='adicionar_produto'),
-    path('remover/<int:posicao>/', views.remover_produto, name='remover_produto'),
-    path('esvaziar/', views.esvaziar_carrinho, name='esvaziar_carrinho'),
-    path('finalizar/', views.finalizar_compra, name='finalizar_compra'),
-    path('consultar-gasto-mensal/', views.consultar_gasto_mensal, name='consultar_gasto_mensal')
+    path('', CarrinhoView.as_view(), name='visualizar_carrinho'),
+    path('adicionar/', AdicionarProdutoView.as_view(), name='adicionar_produto'),
+    path('remover/<int:posicao>/', RemoverProdutoView.as_view(), name='remover_produto'),
+    path('esvaziar/', EsvaziarCarrinhoView.as_view(), name='esvaziar_carrinho'),
+    path('finalizar/', FinalizarCompraView.as_view(), name='finalizar_compra'),
+    path('consultar-gasto-mensal/', ConsultarGastoMensalView.as_view(), name='consultar_gasto_mensal')
 ]
