@@ -42,6 +42,6 @@ def get_referencia_passada(referencia_atual):
 def get_produtos_baixo_estoque():
     produtos_baixo_estoque = []
     for produto in Produto.objects.all():
-        if produto.estoque.quantidade < 10:
+        if produto.estoque.quantidade < 4 and produto.situacao == 'ativo':
             produtos_baixo_estoque.append(produto)
     return produtos_baixo_estoque

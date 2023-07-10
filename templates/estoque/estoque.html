@@ -5,6 +5,7 @@
 {% block title %}Estoque{% endblock %}
 
 {% block main %}
+    <h1>Estoque</h1>
     <table>
         <thead>
             <tr>
@@ -14,7 +15,7 @@
         </thead>
         <tbody>
             {% for estoque in estoques %}
-                <tr>
+                <tr onclick="redirectToView('{{ estoque.pk }}')">
                     <td>{{ estoque.produto.nome }}</td>
                     <td>{{ estoque.quantidade }}</td>
                 </tr>

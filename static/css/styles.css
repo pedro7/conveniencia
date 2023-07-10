@@ -142,6 +142,11 @@ h1 {
   justify-content: center;
 }
 
+main a {
+  display: flex;
+  justify-content: center;
+}
+
 /* .add-button {
   display: flex;
   justify-content: center;

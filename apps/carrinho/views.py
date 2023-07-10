@@ -1,5 +1,3 @@
-from collections import Counter
-
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.http import HttpRequest
@@ -10,6 +8,7 @@ from django.views.generic import TemplateView
 from apps.colaboradores.models import Colaborador
 from apps.compras.models import Compra
 from apps.produtos.models import Produto
+from util.carrinho import finalizar_compra, get_total_carrinho
 from util.emails import enviar_email_ultima_compra
 from util.vendas import get_referencia_atual, get_referencia_passada
 
@@ -20,9 +19,8 @@ class CarrinhoView(TemplateView):
     def get_context_data(self):
         context = super().get_context_data()
         carrinho = self.request.session.get('carrinho', [])
-        total = sum(float(produto['preco']) for produto in carrinho)
         context['carrinho'] = carrinho
-        context['total'] = total
+        context['total'] = get_total_carrinho(carrinho)
         return context
 
 
@@ -30,11 +28,24 @@ class AdicionarProdutoView(View):
     def post(self, request: HttpRequest):
         codigo_barras = request.POST.get('codigo_barras')
         produto = get_object_or_404(Produto, codigo_barras=codigo_barras)
+        if produto.situacao == 'inativo':
+            messages.error(request, 'Produto inativo')
+            return redirect('visualizar_carrinho')
+        
+        qtd_estoque = produto.estoque.quantidade
+        for produto_carrinho in self.request.session.get('carrinho', []):
+            if str(produto.pk) == str(produto_carrinho['id']):
+                qtd_estoque -= 1
+        if qtd_estoque <= 0:
+            messages.error(request, 'Produto sem estoque.')
+            return redirect('visualizar_carrinho')
         
         carrinho = request.session.get('carrinho', [])
         produto_data = {
             'id': produto.pk,
+            'nome': produto.nome,
             'preco': str(produto.preco),
+            'tipo': produto.tipo
         }
         carrinho.append(produto_data)
         request.session['carrinho'] = carrinho
@@ -63,19 +74,7 @@ class FinalizarCompraView(View):
         if not colaborador:
             return redirect('visualizar_carrinho')
         
-        carrinho = request.session.get('carrinho', [])
-        compra = Compra.objects.create(colaborador=colaborador)
-        lista = []
-        for produto in carrinho:
-            lista.append(produto['id'])
-        counter = Counter(lista)
-        for produto, quantidade in counter.items():
-            print(produto, quantidade)
-            through_defaults = {
-                'quantidade': quantidade,
-                'preco_unitario': Produto.objects.get(id=produto).preco
-            }
-            compra.produtos.add(produto, through_defaults=through_defaults)
+        finalizar_compra(self.request, colaborador)
         enviar_email_ultima_compra(colaborador)
         request.session['carrinho'] = []
         return redirect('visualizar_carrinho')

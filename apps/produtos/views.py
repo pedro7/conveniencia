@@ -14,7 +14,7 @@ class ProdutoListView(ListView):
 
 class ProdutoCreateView(CreateView):
     model = Produto
-    fields = ['nome', 'codigo_barras', 'preco']
+    fields = ['nome', 'codigo_barras', 'preco', 'tipo']
     template_name = 'produtos/cadastrar_produto.html'
     success_url = '/produtos/'
 

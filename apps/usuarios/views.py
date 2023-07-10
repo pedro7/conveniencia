@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 
 class UsuarioListView(ListView):
@@ -11,22 +10,14 @@ class UsuarioListView(ListView):
 
 class UsuarioCreateView(CreateView):
     model = User
-    fields = '__all__'
+    fields = ['username', 'email', 'first_name', 'last_name', 'password']
     template_name = 'usuarios/cadastrar_usuario.html'
     success_url = '/usuarios/'
 
 
-class UsuarioDetailView(DetailView):
-    model = User
-    template_name = 'usuarios/usuario.html'
-    context_object_name = 'usuario'
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-
-
 class UsuarioUpdateView(UpdateView):
     model = User
-    fields = '__all__'
+    fields = ['username', 'email', 'first_name', 'last_name']
     template_name = 'usuarios/cadastrar_usuario.html'
     success_url = '/usuarios/'
     slug_field = 'login'

@@ -3,6 +3,7 @@
 {% block title %}Painel{% endblock %}
 
 {% block main %}
+    <h1>Relatórios</h1>
     <form method="get" action="{% url 'gerar_total_mensal' %}">
         {% csrf_token %}
         <input type="submit" value="Gerar total mensal">
