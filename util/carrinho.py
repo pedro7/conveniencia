@@ -1,9 +1,32 @@
 from collections import Counter
 from decimal import Decimal
+
+from django.http.request import HttpRequest
+
 from apps.compras.models import Compra
 from apps.produtos.models import Produto
 from util.emails import enviar_email_compra_ingresso, enviar_email_compra_roupa
 
+
+def criar_carrinho(request):
+    get_carrinho(request)
+
+def get_carrinho(request: HttpRequest):
+    return request.session.get('carrinho', [])
+
+def add_to_carrinho(request: HttpRequest, id, nome, preco, tipo):
+    carrinho = get_carrinho(request)
+    produto = {
+        'id': id,
+        'nome': nome,
+        'preco': str(preco),
+        'tipo': tipo
+    }
+    carrinho.append(produto)
+    request.session['carrinho'] = carrinho
+
+def esvaziar_carrinho(request: HttpRequest):
+    request.session['carrinho'] = []
 
 def finalizar_compra(request, colaborador):
     carrinho = request.session.get('carrinho', [])

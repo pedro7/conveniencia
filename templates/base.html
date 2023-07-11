@@ -44,6 +44,10 @@
                         <i class='bx bx-memory-card nav_icon' title="Estoque"></i>
                         <span class="nav_name">Estoque</span>
                     </a>
+                    <a href="{% url 'visualizar_movimentacoes' %}" class="nav_link">
+                        <i class='bx bxs-cable-car' title="Movimentações"></i>
+                        <span class="nav_name">Movimentações</span>
+                    </a>
                     {% if request.user.is_superuser %}
                         <a href="{% url 'visualizar_usuarios' %}" class="nav_link">
                             <i class='bx bx-user nav_icon' title="Usuários"></i>

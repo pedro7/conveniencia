@@ -2,9 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, RedirectView
 
 from apps.compras.models import Compra
-from util.vendas import (get_produtos_baixo_estoque,
-                         get_produtos_mais_consumidos_hoje,
-                         get_total_vendido_hoje)
+from util.compras import get_total_vendido_hoje
+from util.produtos import (get_produtos_baixo_estoque,
+                           get_produtos_mais_consumidos_hoje)
 
 
 class PainelView(LoginRequiredMixin, ListView):

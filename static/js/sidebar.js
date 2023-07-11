@@ -35,17 +35,20 @@ function colorLink() {
     else if (currentURL.includes('estoque')) {
         links[3].classList.add('active')
     }
-    else if (currentURL.includes('usuarios')) {
+    else if (currentURL.includes('movimentacoes')) {
         links[4].classList.add('active')
     }
-    else if (currentURL.includes('compras')) {
+    else if (currentURL.includes('usuarios')) {
         links[5].classList.add('active')
     }
-    else if (currentURL.includes('relatorios')) {
+    else if (currentURL.includes('compras')) {
         links[6].classList.add('active')
     }
-    else if (currentURL.includes('emails')) {
+    else if (currentURL.includes('relatorios')) {
         links[7].classList.add('active')
+    }
+    else if (currentURL.includes('emails')) {
+        links[8].classList.add('active')
     }
     else {
         links[0].classList.add('active')

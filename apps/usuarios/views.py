@@ -20,8 +20,8 @@ class UsuarioUpdateView(UpdateView):
     fields = ['username', 'email', 'first_name', 'last_name']
     template_name = 'editar.html'
     success_url = '/usuarios/'
-    slug_field = 'login'
-    slug_url_kwarg = 'login'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
 
 
 class UsuarioDeleteView(DeleteView):

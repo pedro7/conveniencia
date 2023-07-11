@@ -1,16 +1,16 @@
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import TemplateView
 
-from apps.colaboradores.models import Colaborador
-from apps.compras.models import Compra
 from apps.produtos.models import Produto
-from util.carrinho import finalizar_compra, get_total_carrinho
+from util.carrinho import (add_to_carrinho, criar_carrinho, esvaziar_carrinho,
+                           finalizar_compra, get_carrinho, get_total_carrinho)
+from util.colaboradores import get_colaborador_valido
+from util.compras import (get_gasto_referencia_atual_colaborador,
+                          get_gasto_referencia_passada_colaborador)
 from util.emails import enviar_email_ultima_compra
-from util.vendas import get_referencia_atual, get_referencia_passada
 
 
 class CarrinhoView(TemplateView):
@@ -18,7 +18,7 @@ class CarrinhoView(TemplateView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        carrinho = self.request.session.get('carrinho', [])
+        carrinho = criar_carrinho(self.request)
         context['carrinho'] = carrinho
         context['total'] = get_total_carrinho(carrinho)
         return context
@@ -33,23 +33,14 @@ class AdicionarProdutoView(View):
             return redirect('visualizar_carrinho')
         
         qtd_estoque = produto.estoque.quantidade
-        for produto_carrinho in self.request.session.get('carrinho', []):
+        for produto_carrinho in get_carrinho:
             if str(produto.pk) == str(produto_carrinho['id']):
                 qtd_estoque -= 1
         if qtd_estoque <= 0:
             messages.error(request, 'Produto sem estoque.')
             return redirect('visualizar_carrinho')
         
-        carrinho = request.session.get('carrinho', [])
-        produto_data = {
-            'id': produto.pk,
-            'nome': produto.nome,
-            'preco': str(produto.preco),
-            'tipo': produto.tipo
-        }
-        carrinho.append(produto_data)
-        request.session['carrinho'] = carrinho
-        
+        add_to_carrinho(request, produto.pk, produto.nome, produto.preco, produto.tipo)
         return redirect('visualizar_carrinho')
 
 
@@ -64,54 +55,29 @@ class RemoverProdutoView(View):
 
 class EsvaziarCarrinhoView(View):
     def post(self, request):
-        request.session['carrinho'] = []
+        esvaziar_carrinho(request)
         return redirect('visualizar_carrinho')
 
 
 class FinalizarCompraView(View):
     def post(self, request: HttpRequest):
-        colaborador = _get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
+        colaborador = get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
         if not colaborador:
             return redirect('visualizar_carrinho')
-        
-        finalizar_compra(self.request, colaborador)
+        finalizar_compra(request, colaborador)
         enviar_email_ultima_compra(colaborador)
-        request.session['carrinho'] = []
+        esvaziar_carrinho(request)
         return redirect('visualizar_carrinho')
 
 
 class ConsultarGastoMensalView(View):
     def post(self, request: HttpRequest):
-        colaborador = _get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
+        colaborador = get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
         if not colaborador:
             return redirect('visualizar_carrinho')
-        gasto_referencia_atual = 0
-        referencia_atual = get_referencia_atual()
-        for compra in Compra.objects.filter(colaborador=colaborador, data__gte=referencia_atual):
-            for compra_produto in compra.compra_produtos.all():
-                gasto_referencia_atual += compra_produto.preco_unitario * compra_produto.quantidade
-        gasto_referencia_passada = 0
-        for compra in Compra.objects.filter(colaborador=colaborador, data__range=[get_referencia_passada(referencia_atual), referencia_atual]):
-            for compra_produto in compra.compra_produtos.all():
-                gasto_referencia_passada += compra_produto.preco_unitario * compra_produto.quantidade
         context = {
-            'carrinho': request.session.get('carrinho', []),
-            'gasto_mensal': gasto_referencia_atual,
-            'gasto_referencia_passada': gasto_referencia_passada
+            'carrinho': get_carrinho(request),
+            'gasto_mensal': get_gasto_referencia_atual_colaborador(colaborador),
+            'gasto_referencia_passada': get_gasto_referencia_passada_colaborador(colaborador)
         }
         return render(request, 'carrinho/carrinho.html', context)
-
-
-def _get_colaborador_valido(request, login, senha):
-    try:
-        colaborador = Colaborador.objects.get(login=login)
-    except Colaborador.DoesNotExist:
-        messages.error(request, 'Colaborador não cadastrado.')
-        return None
-    if colaborador.situacao == 'inativo':
-        messages.error(request, 'Colaborador inativo.')
-        return None
-    if not check_password(senha, colaborador.senha):
-        messages.error(request, 'Senha incorreta.')
-        return None
-    return colaborador

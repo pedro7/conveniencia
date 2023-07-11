@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Movimentações{% endblock %}
+
+{% block main %}
+    <h1>Movimentações</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Usuário</th>
+                <th>Quantidade</th>
+                <th>Data</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movimentacao in movimentacoes %}
+                <tr>
+                    <td>{{ movimentacao.produto.nome }}</td>
+                    <td>{{ movimentacao.usuario.username }}</td>
+                    <td>{{ movimentacao.quantidade }}</td>
+                    <td>{{ movimentacao.data }}</td>
+                    <td>{{ movimentacao.tipo }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
