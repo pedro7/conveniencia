@@ -8,9 +8,6 @@ from apps.produtos.models import Produto
 from util.emails import enviar_email_compra_ingresso, enviar_email_compra_roupa
 
 
-def criar_carrinho(request):
-    get_carrinho(request)
-
 def get_carrinho(request: HttpRequest):
     return request.session.get('carrinho', [])
 

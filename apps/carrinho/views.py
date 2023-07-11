@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from apps.produtos.models import Produto
-from util.carrinho import (add_to_carrinho, criar_carrinho, esvaziar_carrinho,
+from util.carrinho import (add_to_carrinho, esvaziar_carrinho,
                            finalizar_compra, get_carrinho, get_total_carrinho)
 from util.colaboradores import get_colaborador_valido
 from util.compras import (get_gasto_referencia_atual_colaborador,
@@ -18,7 +18,7 @@ class CarrinhoView(TemplateView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        carrinho = criar_carrinho(self.request)
+        carrinho = get_carrinho(self.request)
         context['carrinho'] = carrinho
         context['total'] = get_total_carrinho(carrinho)
         return context
