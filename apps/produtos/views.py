@@ -15,7 +15,7 @@ class ProdutoListView(ListView):
 class ProdutoCreateView(CreateView):
     model = Produto
     fields = ['nome', 'codigo_barras', 'preco', 'tipo']
-    template_name = 'produtos/cadastrar_produto.html'
+    template_name = 'cadastrar.html'
     success_url = '/produtos/'
 
     def form_valid(self, form):
@@ -27,7 +27,7 @@ class ProdutoCreateView(CreateView):
 class ProdutoUpdateView(UpdateView):
     model = Produto
     fields = '__all__'
-    template_name = 'produtos/cadastrar_produto.html'
+    template_name = 'editar.html'
     success_url = '/produtos/'
     slug_field = 'codigo_barras'
     slug_url_kwarg = 'codigo_barras'

@@ -11,14 +11,14 @@ class UsuarioListView(ListView):
 class UsuarioCreateView(CreateView):
     model = User
     fields = ['username', 'email', 'first_name', 'last_name', 'password']
-    template_name = 'usuarios/cadastrar_usuario.html'
+    template_name = 'cadastrar.html'
     success_url = '/usuarios/'
 
 
 class UsuarioUpdateView(UpdateView):
     model = User
     fields = ['username', 'email', 'first_name', 'last_name']
-    template_name = 'usuarios/cadastrar_usuario.html'
+    template_name = 'editar.html'
     success_url = '/usuarios/'
     slug_field = 'login'
     slug_url_kwarg = 'login'

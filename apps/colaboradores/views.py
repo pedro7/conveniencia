@@ -13,7 +13,7 @@ class ColaboradorListView(ListView):
 class ColaboradorCreateView(CreateView):
     model = Colaborador
     fields = ['login', 'email', 'nome', 'cpf', 'senha']
-    template_name = 'colaboradores/cadastrar_colaborador.html'
+    template_name = 'cadastrar.html'
     success_url = '/colaboradores/'
 
     def form_valid(self, form):
@@ -24,7 +24,7 @@ class ColaboradorCreateView(CreateView):
 class ColaboradorUpdateView(UpdateView):
     model = Colaborador
     fields = ['login', 'email', 'nome']
-    template_name = 'colaboradores/cadastrar_colaborador.html'
+    template_name = 'editar.html'
     success_url = '/colaboradores/'
     slug_field = 'login'
     slug_url_kwarg = 'login'

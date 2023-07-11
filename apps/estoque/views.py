@@ -14,7 +14,7 @@ class EstoqueListView(ListView):
 class EstoqueUpdateView(UpdateView):
     model = Estoque
     fields = ['quantidade']
-    template_name = 'estoque/editar_estoque.html'
+    template_name = 'editar.html'
     success_url = '/estoque/'
 
     def form_valid(self, form):
