@@ -1,16 +1,14 @@
-from django.contrib import messages
 from django.http import HttpRequest
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import TemplateView
 
-from apps.produtos.models import Produto
-from util.carrinho import (add_to_carrinho, esvaziar_carrinho,
-                           finalizar_compra, get_carrinho, get_total_carrinho)
+from util.carrinho import *
 from util.colaboradores import get_colaborador_valido
 from util.compras import (get_gasto_referencia_atual_colaborador,
                           get_gasto_referencia_passada_colaborador)
 from util.emails import enviar_email_ultima_compra
+from util.produtos import get_produto_valido
 
 
 class CarrinhoView(TemplateView):
@@ -26,30 +24,19 @@ class CarrinhoView(TemplateView):
 
 class AdicionarProdutoView(View):
     def post(self, request: HttpRequest):
-        codigo_barras = request.POST.get('codigo_barras')
-        produto = get_object_or_404(Produto, codigo_barras=codigo_barras)
-        if produto.situacao == 'inativo':
-            messages.error(request, 'Produto inativo')
+        produto = get_produto_valido(request, request.POST.get('codigo_barras'))
+        if produto is None:
             return redirect('visualizar_carrinho')
-        
-        qtd_estoque = produto.estoque.quantidade
-        for produto_carrinho in get_carrinho:
-            if str(produto.pk) == str(produto_carrinho['id']):
-                qtd_estoque -= 1
-        if qtd_estoque <= 0:
-            messages.error(request, 'Produto sem estoque.')
+        if not produto_pode_ser_adicionado(request, produto):
             return redirect('visualizar_carrinho')
-        
-        add_to_carrinho(request, produto.pk, produto.nome, produto.preco, produto.tipo)
-        return redirect('visualizar_carrinho')
+        else:
+            adicionar_no_carrinho(request, produto.pk, produto.nome, produto.preco, produto.tipo)
+            return redirect('visualizar_carrinho')
 
 
 class RemoverProdutoView(View):
     def post(self, request: HttpRequest, posicao):
-        carrinho = request.session.get('carrinho', [])
-        if posicao >= 1 and posicao <= len(carrinho):
-            carrinho.pop(posicao - 1)
-            request.session['carrinho'] = carrinho
+        remover_do_carrinho(request, posicao)
         return redirect('visualizar_carrinho')
 
 
@@ -64,7 +51,7 @@ class FinalizarCompraView(View):
         colaborador = get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
         if not colaborador:
             return redirect('visualizar_carrinho')
-        finalizar_compra(request, colaborador)
+        finalizar_carrinho(request, colaborador)
         enviar_email_ultima_compra(colaborador)
         esvaziar_carrinho(request)
         return redirect('visualizar_carrinho')

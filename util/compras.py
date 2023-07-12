@@ -1,9 +1,31 @@
+from collections import Counter
+
 from django.utils import timezone
 
 from apps.compras.models import Compra
+from util.emails import enviar_email_compra_ingresso, enviar_email_compra_roupa
 
+from .estoque import diminuir_estoque
 from .referencias import get_referencia_atual, get_referencia_passada
 
+
+def cadastrar_compra(colaborador, produtos):
+    compra = Compra.objects.create(colaborador=colaborador)
+    produtos = Counter(produtos)
+    for produto, quantidade in produtos.items():
+        through_defaults = {
+            'quantidade': quantidade,
+            'preco_unitario': produto.preco
+        }
+        compra.produtos.add(produto, through_defaults=through_defaults)
+        if produto.tipo == 'ingresso':
+            enviar_email_compra_ingresso(colaborador, quantidade)
+        else:
+            diminuir_estoque(produto, quantidade)
+        if produto.tipo == 'roupa':
+            enviar_email_compra_roupa(colaborador, quantidade)
+        else:
+            diminuir_estoque(produto, quantidade)
 
 def get_total_vendido_hoje():
     total_vendido_hoje = 0

@@ -12,14 +12,14 @@ def enviar_email_ultima_compra(colaborador):
     email.attach('Comprovante.pdf', relatorio_ultima_compra, 'application/pdf')
     email.send()
 
-def enviar_email_compra_ingresso(colaborador):
+def enviar_email_compra_ingresso(colaborador, quantidade):
     email = EmailMessage(
         'Compra Ingresso SCI',
         to=[colaborador.email, 'pedrogabrielappel@gmail.com']
     )
     email.send()
 
-def enviar_email_compra_roupa(colaborador):
+def enviar_email_compra_roupa(colaborador, quantidade):
     email = EmailMessage(
         'Compra Roupa SCI',
         to=[colaborador.email, 'pedrogabrielappel@gmail.com']

@@ -1,17 +1,20 @@
-from collections import Counter
 from decimal import Decimal
 
+from django.contrib.messages import error
 from django.http.request import HttpRequest
 
-from apps.compras.models import Compra
 from apps.produtos.models import Produto
-from util.emails import enviar_email_compra_ingresso, enviar_email_compra_roupa
+
+from .compras import cadastrar_compra
 
 
 def get_carrinho(request: HttpRequest):
     return request.session.get('carrinho', [])
 
-def add_to_carrinho(request: HttpRequest, id, nome, preco, tipo):
+def set_carrinho(request: HttpRequest, carrinho):
+    request.session['carrinho'] = carrinho
+
+def adicionar_no_carrinho(request: HttpRequest, id, nome, preco, tipo):
     carrinho = get_carrinho(request)
     produto = {
         'id': id,
@@ -20,35 +23,41 @@ def add_to_carrinho(request: HttpRequest, id, nome, preco, tipo):
         'tipo': tipo
     }
     carrinho.append(produto)
-    request.session['carrinho'] = carrinho
+    set_carrinho(request, carrinho)
+
+def remover_do_carrinho(request, posicao):
+    carrinho = get_carrinho(request)
+    carrinho.pop(posicao - 1)
+    set_carrinho(request, carrinho)
 
 def esvaziar_carrinho(request: HttpRequest):
-    request.session['carrinho'] = []
-
-def finalizar_compra(request, colaborador):
-    carrinho = request.session.get('carrinho', [])
-    compra = Compra.objects.create(colaborador=colaborador)
-    lista = []
-    for produto in carrinho:
-        if produto['tipo'] == 'ingresso':
-            enviar_email_compra_ingresso(colaborador)
-        if produto['tipo'] == 'roupa':
-            enviar_email_compra_roupa(colaborador)
-        lista.append(produto['id'])
-    counter = Counter(lista)
-    for produto, quantidade in counter.items():
-        produto2 = Produto.objects.get(id=int(produto))
-        estoque = produto2.estoque
-        estoque.quantidade -= int(quantidade)
-        estoque.save()
-        through_defaults = {
-            'quantidade': quantidade,
-            'preco_unitario': produto2.preco
-        }
-        compra.produtos.add(produto, through_defaults=through_defaults)
+    set_carrinho(request, [])
 
 def get_total_carrinho(carrinho):
     total = 0
     for produto in carrinho:
         total += Decimal(produto['preco'])
     return total
+
+def produto_pode_ser_adicionado(request, produto):
+    quantidade = _get_quantidade_produto_adicionado(request, produto)
+    if produto.estoque.quantidade - quantidade < 0:
+        error(request, 'Produto sem estoque.')
+        return False
+    else:
+        return True
+
+def _get_quantidade_produto_adicionado(request, produto):
+    quantidade = 1
+    for produto_carrinho in get_carrinho(request):
+        if str(produto.id) == str(produto_carrinho['id']):
+            quantidade += 1
+    return quantidade
+
+def finalizar_carrinho(request, colaborador):
+    carrinho = get_carrinho(request)
+    produtos = []
+    for produto in carrinho:
+        produtos.append(Produto.objects.get(id=int(produto['id'])))
+    print(produtos)
+    cadastrar_compra(colaborador, produtos)
