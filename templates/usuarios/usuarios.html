@@ -11,6 +11,7 @@
                 <th>Nome de Usuário</th>
                 <th>Email</th>
                 <th>Nome</th>
+                <th>Ativo</th>
                 <th>Administrador</th>
                 <th>Último Login</th>
             </tr>
@@ -21,6 +22,7 @@
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+                    <td>{{ usuario.is_active }}</td>
                     <td>{{ usuario.is_superuser }}</td>
                     <td>{{ usuario.last_login }}</td>
                 </tr>

@@ -16,7 +16,6 @@ def visualizar_relatorios(request: HttpRequest):
         return redirect('entrar')
     return render(request, 'relatorios/relatorios.html')
 
-# limpar
 @login_required
 def gerar_total_mensal(request: HttpRequest):
     if not request.user.is_superuser:
@@ -24,8 +23,8 @@ def gerar_total_mensal(request: HttpRequest):
     response = HttpResponse()
     response['Content-Disposition'] = 'attachment; filename="Total_Mensal.pdf"'
     p = Canvas(response)
-    p.setFont("Helvetica", 12)  # Set the font and size
-    p.drawString(50, 750, "Total mensal:")  # Write the text at the specified coordinates
+    p.setFont("Helvetica", 12)
+    p.drawString(50, 750, "Total mensal:")
     mes_atual = timezone.now().month
     total_gasto = 0
     for compra in Compra.objects.filter(data__month=mes_atual):

@@ -5,23 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/entrar.css' %}">
 </head>
 <body>
-    <main>
-        <div class="container">
-            <h2>Login</h2>
-            <form method="post" action="{% url 'entrar' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Entrar</button>
-            </form>
-            {% for message in messages %}
-                <div class="erro">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    </main>
+	<main class="login">
+		<div class="login_box">
+			<div class="left">
+				<div class="contact">
+					<form method="post" action="{% url 'entrar' %}">
+                        {% csrf_token %}
+						<h3>ENTRAR</h3>
+						<input type="text" name="username" placeholder="USUÁRIO">
+						<input type="text" name="password" placeholder="SENHA">
+						<button class="submit">ENTRAR</button>
+					</form>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right-text">
+					<h2>LOJINHA SCI</h2>
+					<h5>2.0</h5>
+				</div>
+			</div>
+		</div>
+	</main>
 </body>
 </html>

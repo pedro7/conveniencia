@@ -15,7 +15,8 @@ def get_produto_valido(request, codigo_barras):
     if produto.situacao == 'inativo':
         error(request, 'Produto inativo.')
         return None
-    return produto
+    else:
+        return produto
 
 def get_produtos_mais_consumidos_hoje():
     produtos_mais_consumidos_hoje = {}

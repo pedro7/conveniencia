@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
-/* * {
-  margin: 0;
-  padding: 0;
-  font-family: 'Open Sans', sans-serif;
-  font-size: x-large;
-} */
-
 main {
   font-family: 'Open Sans', sans-serif;
   font-size: x-large;
@@ -25,6 +18,7 @@ table {
 
 thead {
   background-color: #36304A;
+  /* background-color: #4A2D60; */
   color: #FFFFFF;
   text-align: left;
 }
@@ -95,14 +89,6 @@ td {
   text-align: left;
 }
 
-.modal-body {
-  
-}
-
-.modal-foot {
-
-}
-
 .modal-foot form {
   display: block;
 }
@@ -146,28 +132,3 @@ main a {
   display: flex;
   justify-content: center;
 }
-
-/* .add-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 3vw;
-  height: 6vh;
-  border-radius: 50%;
-  background-color: #FD437F;
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: bold;
-  text-decoration: none;
-  border: none;
-}
-
-button {
-	font: inherit;
-	cursor: pointer;
-}
-
-.centered-button {
-  display: flex;
-  justify-content: center;
-} */

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, UpdateView
 
@@ -6,13 +7,13 @@ from apps.estoque.models import Estoque
 from .models import Produto
 
 
-class ProdutoListView(ListView):
+class ProdutoListView(LoginRequiredMixin, ListView):
     model = Produto
     template_name = 'produtos/produtos.html'
     context_object_name = 'produtos'
 
 
-class ProdutoCreateView(CreateView):
+class ProdutoCreateView(LoginRequiredMixin, CreateView):
     model = Produto
     fields = ['nome', 'codigo_barras', 'preco', 'tipo']
     template_name = 'cadastrar.html'
@@ -24,7 +25,7 @@ class ProdutoCreateView(CreateView):
         return redirect('visualizar_produtos')
 
 
-class ProdutoUpdateView(UpdateView):
+class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
     model = Produto
     fields = '__all__'
     template_name = 'editar.html'

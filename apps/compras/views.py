@@ -1,12 +1,16 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import DeleteView, ListView
 
 from apps.compras.models import Compra
 
 
-class ComprasListView(ListView):
+class ComprasListView(UserPassesTestMixin, ListView):
     model = Compra
     template_name = 'compras/compras.html'
     context_object_name = 'compras_valores'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def get_queryset(self):
         if not self.request.user.is_superuser:
@@ -23,6 +27,9 @@ class ComprasListView(ListView):
         return compras_valores
 
 
-class CompraDeleteView(DeleteView):
+class CompraDeleteView(UserPassesTestMixin, DeleteView):
     model = Compra
     success_url = '/compras/'
+
+    def test_func(self):
+        return self.request.user.is_superuser

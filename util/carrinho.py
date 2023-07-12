@@ -40,17 +40,17 @@ def get_total_carrinho(carrinho):
     return total
 
 def produto_pode_ser_adicionado(request, produto):
-    quantidade = _get_quantidade_produto_adicionado(request, produto)
+    quantidade = _get_quantidade_no_carrinho(request, produto)
     if produto.estoque.quantidade - quantidade < 0:
         error(request, 'Produto sem estoque.')
         return False
     else:
         return True
 
-def _get_quantidade_produto_adicionado(request, produto):
+def _get_quantidade_no_carrinho(request, produto):
     quantidade = 1
     for produto_carrinho in get_carrinho(request):
-        if str(produto.id) == str(produto_carrinho['id']):
+        if produto.id == produto_carrinho['id']:
             quantidade += 1
     return quantidade
 
@@ -59,5 +59,4 @@ def finalizar_carrinho(request, colaborador):
     produtos = []
     for produto in carrinho:
         produtos.append(Produto.objects.get(id=int(produto['id'])))
-    print(produtos)
     cadastrar_compra(colaborador, produtos)

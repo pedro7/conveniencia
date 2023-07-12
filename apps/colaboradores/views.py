@@ -1,16 +1,17 @@
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView
 
 from .models import Colaborador
 
 
-class ColaboradorListView(ListView):
+class ColaboradorListView(LoginRequiredMixin, ListView):
     model = Colaborador
     template_name = 'colaboradores/colaboradores.html'
     context_object_name = 'colaboradores'
 
 
-class ColaboradorCreateView(CreateView):
+class ColaboradorCreateView(LoginRequiredMixin, CreateView):
     model = Colaborador
     fields = ['login', 'email', 'nome', 'cpf', 'senha']
     template_name = 'cadastrar.html'
@@ -21,7 +22,7 @@ class ColaboradorCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ColaboradorUpdateView(UpdateView):
+class ColaboradorUpdateView(LoginRequiredMixin, UpdateView):
     model = Colaborador
     fields = ['login', 'email', 'nome']
     template_name = 'editar.html'
