@@ -11,18 +11,36 @@
                 <th>Nome</th>
                 <th>Código de Barras</th>
                 <th>Preço</th>
-                <th>Situação</th>
                 <th>Tipo</th>
+                <th>Ativo</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody>
             {% for produto in produtos %}
-                <tr onclick="redirectToView('{{ produto.codigo_barras }}')">
+                <tr>
                     <td>{{ produto.nome }}</td>
                     <td>{{ produto.codigo_barras }}</td>
                     <td>{{ produto.preco }}</td>
-                    <td>{{ produto.situacao }}</td>
                     <td>{{ produto.tipo }}</td>
+                    <td>
+                        {% if produto.situacao == 'ativo' %}
+                            <label class="switch" onclick="redirectToUrl('{{ produto.codigo_barras }}/alterar-situacao/')">
+                                <input type="checkbox">
+                                <span class="slideron round"></span>
+                            </label>
+                        {% else %}
+                            <label class="switch" onclick="redirectToUrl('{{ produto.codigo_barras }}/alterar-situacao/')">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_produto' produto.codigo_barras %}">
+                            <i class='bx bxs-edit-alt'></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

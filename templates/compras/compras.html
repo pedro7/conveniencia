@@ -10,6 +10,8 @@
                 <th>Colaborador</th>
                 <th>Data</th>
                 <th>Total</th>
+                <th>Itens</th>
+                <th>Excluir</th>
             </tr>
         </thead>
         <tbody>
@@ -18,61 +20,18 @@
                     <td>{{ compra.colaborador.nome }}</td>
                     <td>{{ compra.data }}</td>
                     <td>{{ valor }}</td>
-                    <div class="modal">
-                        <div class="modal-content">
-                            <div class="modal-head">
-                                <h1>Produtos</h1>
-                            </div>
-                            <div class="modal-body">
-                                <ul>
-                                    {% for compra_produtos in compra.compra_produtos.all %}
-                                        <li>{{ compra_produtos.produto.nome }} x{{ compra_produtos.quantidade }} {{ compra_produtos.preco_unitario }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="modal-foot">
-                                <form method="post" action="{% url 'excluir_compra' compra.id %}">
-                                    {% csrf_token %}
-                                    <input type="submit" value="Excluir Compra">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                    <td>
+                        <a href="{% url 'visualizar_compra_produtos' compra.pk %}">
+                            <i class='bx bx-show-alt' ></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'excluir_compra' compra.pk %}">
+                            <i class='bx bxs-trash' ></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-
-        </tfoot>
     </table>
-    {% for compra in compra_valores.keys %}
-        {% for produto in compra.produtos.all %}
-            <div class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p>{{ produto }}</p>
-                </div>
-            </div>
-        {% endfor %}
-    {% endfor %}
-    <script>
-        var modals = document.getElementsByClassName("modal")
-        var tbody = document.querySelector("tbody");
-        var rows = tbody.querySelectorAll("tr");
-
-        rows.forEach(function(row, index) {
-            row.onclick = function() {
-                modals[index].style.display = "block";
-            };
-        });
-
-        window.onclick = function(event) {
-            for (var i = 0; i < modals.length; i++) {
-                if (event.target == modals[i]) {
-                    modals[i].style.display = "none";
-                break;
-                }
-            }
-        };
-    </script>
 {% endblock %}

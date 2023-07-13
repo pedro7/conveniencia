@@ -1,10 +1,10 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.views.generic import DeleteView, ListView
+from django.views.generic import DeleteView, DetailView, ListView
 
-from apps.compras.models import Compra
+from apps.compras.models import Compra, CompraProduto
 
 
-class ComprasListView(UserPassesTestMixin, ListView):
+class CompraListView(UserPassesTestMixin, ListView):
     model = Compra
     template_name = 'compras/compras.html'
     context_object_name = 'compras_valores'
@@ -25,6 +25,15 @@ class ComprasListView(UserPassesTestMixin, ListView):
             valores_totais.append(total)
         compras_valores = {k: v for k, v in zip(compras, valores_totais)}
         return compras_valores
+
+
+class CompraDetailView(UserPassesTestMixin, DetailView):
+    model = Compra
+    template_name = 'compras/compra-produtos.html'
+    context_object_name = 'compra'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class CompraDeleteView(UserPassesTestMixin, DeleteView):

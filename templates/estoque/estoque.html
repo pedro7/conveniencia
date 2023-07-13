@@ -10,9 +10,9 @@
         <thead>
             <tr>
                 <th>Produto</th>
-                <th>Quantidade Disponível</th>
-                <th>Adicionar Quantidade</th>
-                <th>Remover Quantidade</th>
+                <th>Disponível</th>
+                <th>Aumentar</th>
+                <th>Diminuir</th>
             </tr>
         </thead>
         <tbody>
@@ -20,8 +20,16 @@
                 <tr>
                     <td>{{ estoque.produto.nome }}</td>
                     <td>{{ estoque.quantidade }}</td>
-                    <td><a href="{% url 'aumentar_estoque' estoque.pk %}">Adicionar Estoque</a></td>
-                    <td><a href="{% url 'diminuir_estoque' estoque.pk %}">Diminuir Estoque</a></td>
+                    <td>
+                        <a href="{% url 'aumentar_estoque' estoque.pk %}">
+                            <i class='bx bxs-plus-circle'></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'diminuir_estoque' estoque.pk %}">
+                            <i class='bx bxs-minus-circle'></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,8 +1,9 @@
 from django.urls import path
 
-from .views import CompraDeleteView, ComprasListView
+from .views import CompraDeleteView, CompraDetailView, CompraListView
 
 urlpatterns = [
-    path('', ComprasListView.as_view(), name='visualizar_compras'),
-    path('excluir/<int:pk>/', CompraDeleteView.as_view(), name='excluir_compra')
+    path('', CompraListView.as_view(), name='visualizar_compras'),
+    path('<int:pk>/', CompraDetailView.as_view(), name='visualizar_compra_produtos'),
+    path('<int:pk>/excluir/', CompraDeleteView.as_view(), name='excluir_compra')
 ]

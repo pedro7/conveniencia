@@ -12,17 +12,41 @@
                 <th>Email</th>
                 <th>CPF</th>
                 <th>Login</th>
-                <th>Situação</th>
+                <th>Ativo</th>
+                <th>Editar</th>
+                <th>Alterar Senha</th>
             </tr>
         </thead>
         <tbody>
             {% for colaborador in colaboradores %}
-                <tr onclick="redirectToView('{{ colaborador.login }}')">
+                <tr>
                     <td>{{ colaborador.nome }}</td>
                     <td>{{ colaborador.email }}</td>
                     <td>{{ colaborador.cpf }}</td>
                     <td>{{ colaborador.login }}</td>
-                    <td>{{ colaborador.situacao }}</td>
+                    <td>
+                        {% if colaborador.situacao == 'ativo' %}
+                            <label class="switch" onclick="redirectToUrl('{{ colaborador.login }}/alterar-situacao/')">
+                                <input type="checkbox">
+                                <span class="slideron round"></span>
+                            </label>
+                        {% else %}
+                            <label class="switch" onclick="redirectToUrl('{{ colaborador.login }}/alterar-situacao/')">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_colaborador' colaborador.login %}">
+                            <i class='bx bxs-edit-alt'></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'editar_senha_colaborador' colaborador.login %}">
+                            <i class='bx bxs-lock' ></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

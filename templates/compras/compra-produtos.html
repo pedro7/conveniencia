@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Itens{% endblock %}
+
+{% block main %}
+    <h1>Itens</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra_produto in compra.compra_produtos.all %}
+                <tr>
+                    <td>{{ compra_produto.produto.nome }}</td>
+                    <td>{{ compra_produto.quantidade }}</td>
+                    <td>{{ compra_produto.preco_unitario }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

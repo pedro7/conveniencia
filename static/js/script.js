@@ -1,3 +1,3 @@
-function redirectToView(path) {
-    window.location.href = path + '/editar';
+function redirectToUrl(url) {
+    window.location.href = url;
 }
