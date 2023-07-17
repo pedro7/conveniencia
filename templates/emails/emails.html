@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 
 {% load static %}
 
@@ -6,11 +6,13 @@
 
 {% block main %}
     <h1>Emails</h1>
-    <form method="post" action="{% url 'enviar_email' %}">
-        {% csrf_token %}
-        <input type="text" name="destinatario" placeholder="Destinatário">
-        <input type="text" name="assunto" placeholder="Assunto">
-        <input type="text" name="mensagem" placeholder="Mensagem">
-        <input type="submit" value="Enviar">
-    </form>
+    <div class="form-container">
+        <form method="post" action="{% url 'enviar_email' %}">
+            {% csrf_token %}
+            <input type="text" name="destinatario" placeholder="Destinatário">
+            <input type="text" name="assunto" placeholder="Assunto">
+            <input type="text" name="mensagem" placeholder="Mensagem">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
 {% endblock %}

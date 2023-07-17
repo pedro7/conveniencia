@@ -15,7 +15,7 @@ class EstoqueListView(LoginRequiredMixin, ListView):
 
 class AumentarQuantidadeView(LoginRequiredMixin, FormView):
     form_class = AlterarQuantidadeForm
-    template_name = 'editar.html'
+    template_name = 'base/editar.html'
     success_url = '/estoque/'
 
     def form_valid(self, form):
@@ -35,7 +35,7 @@ class AumentarQuantidadeView(LoginRequiredMixin, FormView):
 
 class DiminuirQuantidadeView(LoginRequiredMixin, FormView):
     form_class = AlterarQuantidadeForm
-    template_name = 'editar.html'
+    template_name = 'base/editar.html'
     success_url = '/estoque/'
 
     def form_valid(self, form):

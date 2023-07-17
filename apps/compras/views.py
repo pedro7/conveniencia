@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import DeleteView, DetailView, ListView
 
-from apps.compras.models import Compra, CompraProduto
+from apps.compras.models import Compra
 
 
 class CompraListView(UserPassesTestMixin, ListView):
@@ -38,6 +38,7 @@ class CompraDetailView(UserPassesTestMixin, DetailView):
 
 class CompraDeleteView(UserPassesTestMixin, DeleteView):
     model = Compra
+    template_name = 'base/deletar.html'
     success_url = '/compras/'
 
     def test_func(self):

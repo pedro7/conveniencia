@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Deletar{% endblock %}
+
+{% block main %}
+    <h1>Deseja realmente excluir?</h1>
+    <div class="form-container">
+        <div class="center-button">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="button" value="Voltar" onclick="redirectToUrl('/funcionarios/')">
+                <input type="submit" value="Confirmar">
+            </form>
+        </div>
+    </div>
+{% endblock %}

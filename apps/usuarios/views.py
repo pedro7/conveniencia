@@ -2,7 +2,8 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.views.generic import CreateView, ListView, UpdateView, View
+from django.views.generic import CreateView, ListView, UpdateView, View, FormView
+from .forms import UsuarioSenhaForm
 
 
 class UsuarioListView(UserPassesTestMixin, ListView):
@@ -17,7 +18,7 @@ class UsuarioListView(UserPassesTestMixin, ListView):
 class UsuarioCreateView(UserPassesTestMixin, CreateView):
     model = User
     fields = ['username', 'email', 'first_name', 'last_name', 'password']
-    template_name = 'cadastrar.html'
+    template_name = 'base/cadastrar.html'
     success_url = '/usuarios/'
 
     def test_func(self):
@@ -31,7 +32,7 @@ class UsuarioCreateView(UserPassesTestMixin, CreateView):
 class UsuarioUpdateView(UserPassesTestMixin, UpdateView):
     model = User
     fields = ['username', 'email', 'first_name', 'last_name']
-    template_name = 'editar.html'
+    template_name = 'base/editar.html'
     success_url = '/usuarios/'
     slug_field = 'username'
     slug_url_kwarg = 'username'
@@ -40,19 +41,27 @@ class UsuarioUpdateView(UserPassesTestMixin, UpdateView):
         return self.request.user.is_superuser
     
 
-class UsuarioUpdateSenhaView(UserPassesTestMixin, UpdateView):
-    model = User
-    fields = ['password']
-    template_name = 'editar.html'
+class UsuarioUpdateSenhaView(UserPassesTestMixin, FormView):
+    form_class = UsuarioSenhaForm
+    template_name = 'base/editar.html'
     success_url = '/usuarios/'
     slug_field = 'username'
     slug_url_kwarg = 'username'
 
     def test_func(self):
         return self.request.user.is_superuser
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        usuario = User.objects.get(username=self.kwargs['username'])
+        kwargs['usuario'] = usuario
+        return kwargs
     
     def form_valid(self, form):
-        form.instance.password = make_password(form.instance.password)
+        usuario = form.usuario
+        nova_senha = form.cleaned_data['nova_senha']
+        usuario.password = make_password(nova_senha)
+        usuario.save()
         return super().form_valid(form)
 
 

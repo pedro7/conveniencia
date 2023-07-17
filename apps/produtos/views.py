@@ -17,7 +17,7 @@ class ProdutoListView(LoginRequiredMixin, ListView):
 class ProdutoCreateView(LoginRequiredMixin, CreateView):
     model = Produto
     fields = ['nome', 'codigo_barras', 'preco', 'tipo']
-    template_name = 'cadastrar.html'
+    template_name = 'base/cadastrar.html'
     success_url = '/produtos/'
 
     def form_valid(self, form):
@@ -29,7 +29,7 @@ class ProdutoCreateView(LoginRequiredMixin, CreateView):
 class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
     model = Produto
     fields = '__all__'
-    template_name = 'editar.html'
+    template_name = 'base/editar.html'
     success_url = '/produtos/'
     slug_field = 'codigo_barras'
     slug_url_kwarg = 'codigo_barras'
