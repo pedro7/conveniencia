@@ -9,7 +9,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="button" value="Voltar" onclick="redirectToUrl('/funcionarios/')">
+                <input type="button" value="Voltar" onclick=history.go(-1)>
                 <input type="submit" value="Confirmar">
             </form>
         </div>

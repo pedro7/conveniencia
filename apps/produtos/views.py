@@ -4,6 +4,7 @@ from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView
 
 from apps.estoque.models import Estoque
+from util.emails import enviar_email_mudanca_preco_produto
 
 from .models import Produto
 
@@ -33,6 +34,10 @@ class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
     success_url = '/produtos/'
     slug_field = 'codigo_barras'
     slug_url_kwarg = 'codigo_barras'
+
+    def form_valid(self, form):
+        enviar_email_mudanca_preco_produto(self.get_object().pk, form.cleaned_data['preco'], self.get_object().preco)
+        return super().form_valid(form)
 
 
 class ProdutoUpdateSituacaoView(LoginRequiredMixin, View):

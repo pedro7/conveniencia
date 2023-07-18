@@ -47,3 +47,11 @@ def get_gasto_referencia_passada_colaborador(colaborador):
         for compra_produto in compra.compra_produtos.all():
             gasto_referencia_passada += compra_produto.preco_unitario * compra_produto.quantidade
     return gasto_referencia_passada
+
+# def get_compras_possuem_produto_desde_referencia_passada(produto):
+#     compras = []
+#     for compra in Compra.objects.all(data__gte=[get_referencia_passada()]):
+#         for compra_produto in compra.compra_produtos.all():
+#             if compra_produto.produto == produto:
+#                 compras.append(compra)
+#     return compras

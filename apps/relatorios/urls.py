@@ -1,9 +1,10 @@
 from django.urls import path
 
-from . import views
+from .views import (GerarConsumoGeralView, GerarTotalMensalView,
+                    GerarRelatorioTemplateView)
 
 urlpatterns = [
-    path('', views.visualizar_relatorios, name='visualizar_relatorios'),
-    path('total-mensal/', views.gerar_total_mensal, name='gerar_total_mensal'),
-    path('consumo-geral/', views.gerar_consumo_geral, name='gerar_consumo_geral')
+    path('gerar/', GerarRelatorioTemplateView.as_view(), name='gerar_relatorios'),
+    path('gerar/total-mensal/', GerarTotalMensalView.as_view(), name='gerar_total_mensal'),
+    path('gerar/consumo-geral/', GerarConsumoGeralView.as_view(), name='gerar_consumo_geral')
 ]

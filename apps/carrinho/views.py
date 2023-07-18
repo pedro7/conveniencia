@@ -7,7 +7,7 @@ from util.carrinho import *
 from util.colaboradores import get_colaborador_valido
 from util.compras import (get_gasto_referencia_atual_colaborador,
                           get_gasto_referencia_passada_colaborador)
-from util.emails import enviar_email_ultima_compra
+from util.emails import enviar_email_ultima_compra, enviar_email_detalhes_refencias
 from util.produtos import get_produto_valido
 
 
@@ -51,6 +51,9 @@ class FinalizarCompraView(View):
         colaborador = get_colaborador_valido(request, request.POST['login'], request.POST['senha'])
         if not colaborador:
             return redirect('visualizar_carrinho')
+        if not get_carrinho(request):
+            enviar_email_detalhes_refencias(colaborador)
+            return redirect('visualizar_carrinho')
         finalizar_carrinho(request, colaborador)
         enviar_email_ultima_compra(colaborador)
         esvaziar_carrinho(request)
@@ -67,4 +70,5 @@ class ConsultarGastoMensalView(View):
             'gasto_mensal': get_gasto_referencia_atual_colaborador(colaborador),
             'gasto_referencia_passada': get_gasto_referencia_passada_colaborador(colaborador)
         }
+        enviar_email_detalhes_refencias(colaborador)
         return render(request, 'carrinho/carrinho.html', context)

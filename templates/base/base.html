@@ -57,7 +57,7 @@
                             <i class='bx bx-purchase-tag nav_icon' title="Compras"></i>
                             <span class="nav_name">Compras</span>
                         </a>
-                        <a href="{% url 'visualizar_relatorios' %}" class="nav_link">
+                        <a href="{% url 'gerar_relatorios' %}" class="nav_link">
                             <i class='bx bxs-report nav_icon' title="Relatórios"></i>
                             <span class="nav_name">Relatórios</span>
                         </a>
@@ -76,11 +76,9 @@
     </div>
     <main>
         <div class="height-100 bg-light">
-            <div class="table-container">
-                {% block main %}
+            {% block main %}
 
-                {% endblock %}
-            </div>
+            {% endblock %}
         </div>
     </main>
     <footer>

@@ -27,7 +27,7 @@ class ColaboradorCreateView(LoginRequiredMixin, CreateView):
 
 class ColaboradorUpdateView(LoginRequiredMixin, UpdateView):
     model = Colaborador
-    fields = ['login', 'email', 'nome']
+    fields = ['login', 'email', 'nome', 'cpf']
     template_name = 'base/editar.html'
     success_url = '/colaboradores/'
     slug_field = 'login'
