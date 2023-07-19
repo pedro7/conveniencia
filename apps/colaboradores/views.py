@@ -16,7 +16,7 @@ class ColaboradorListView(LoginRequiredMixin, ListView):
 
 class ColaboradorCreateView(LoginRequiredMixin, CreateView):
     model = Colaborador
-    fields = ['login', 'email', 'nome', 'cpf', 'senha']
+    fields = ['login', 'email', 'nome', 'cpf', 'data_de_nascimento', 'senha']
     template_name = 'base/cadastrar.html'
     success_url = '/colaboradores/'
 
@@ -27,15 +27,11 @@ class ColaboradorCreateView(LoginRequiredMixin, CreateView):
 
 class ColaboradorUpdateView(LoginRequiredMixin, UpdateView):
     model = Colaborador
-    fields = ['login', 'email', 'nome', 'cpf']
+    fields = ['login', 'email', 'nome', 'cpf', 'data_de_nascimento']
     template_name = 'base/editar.html'
     success_url = '/colaboradores/'
     slug_field = 'login'
     slug_url_kwarg = 'login'
-
-    def form_valid(self, form):
-        form.instance.senha = make_password(form.cleaned_data['senha'])
-        return super().form_valid(form)
 
 
 class ColaboradorUpdateSenhaView(LoginRequiredMixin, FormView):

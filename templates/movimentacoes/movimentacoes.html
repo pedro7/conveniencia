@@ -21,7 +21,7 @@
                     <td>{{ movimentacao.usuario.username }}</td>
                     <td>{{ movimentacao.quantidade }}</td>
                     <td>{{ movimentacao.data }}</td>
-                    <td>{{ movimentacao.tipo }}</td>
+                    <td>{{ movimentacao.get_tipo_display }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -7,7 +7,8 @@ from util.carrinho import *
 from util.colaboradores import get_colaborador_valido
 from util.compras import (get_gasto_referencia_atual_colaborador,
                           get_gasto_referencia_passada_colaborador)
-from util.emails import enviar_email_ultima_compra, enviar_email_detalhes_refencias
+from util.emails import (enviar_email_detalhes_refencias,
+                         enviar_email_ultima_compra)
 from util.produtos import get_produto_valido
 
 

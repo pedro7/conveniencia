@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.contrib.messages import error
 from django.http.request import HttpRequest
+from django.shortcuts import redirect
 
 from apps.produtos.models import Produto
 
@@ -58,5 +59,8 @@ def finalizar_carrinho(request, colaborador):
     carrinho = get_carrinho(request)
     produtos = []
     for produto in carrinho:
+        if produto['tipo'] == 'alcoolico' and colaborador.idade < 18:
+            error(request, 'É proibido a venda de produtos alcoólicos para menores de 18 anos.')
+            return redirect('visualizar_carrinho')
         produtos.append(Produto.objects.get(id=int(produto['id'])))
     cadastrar_compra(colaborador, produtos)

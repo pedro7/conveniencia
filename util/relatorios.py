@@ -11,7 +11,7 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Table, TableStyle
 from apps.colaboradores.models import Colaborador
 from apps.compras.models import Compra, CompraProduto
 
-from .referencias import get_referencia_passada, get_referencia_atual
+from .referencias import get_referencia_atual, get_referencia_passada
 
 
 def get_relatorio_ultima_compra():

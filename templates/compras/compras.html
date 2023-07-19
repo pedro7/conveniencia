@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ compra.colaborador.nome }}</td>
                     <td>{{ compra.data }}</td>
-                    <td>{{ valor }}</td>
+                    <td>R$ {{ valor }}</td>
                     <td>
                         <a href="{% url 'visualizar_compra_produtos' compra.pk %}">
                             <i class='bx bx-show-alt' ></i>

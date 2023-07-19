@@ -231,7 +231,7 @@ input:checked + .slideron:before {
 } 
 
 .form-container {
-  width: 800px;
+  width: 60vw;
   margin: 0 auto;
 }
 

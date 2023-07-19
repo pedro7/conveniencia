@@ -21,8 +21,8 @@
                 <tr>
                     <td>{{ produto.nome }}</td>
                     <td>{{ produto.codigo_barras }}</td>
-                    <td>{{ produto.preco }}</td>
-                    <td>{{ produto.tipo }}</td>
+                    <td>R$ {{ produto.preco }}</td>
+                    <td>{{ produto.get_tipo_display }}</td>
                     <td>
                         {% if produto.situacao == 'ativo' %}
                             <label class="switch" onclick="redirectToUrl('{{ produto.codigo_barras }}/alterar-situacao/')">

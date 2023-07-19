@@ -1,4 +1,5 @@
-from django.contrib.auth.hashers import make_password
+from datetime import datetime
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -12,12 +13,16 @@ class Colaborador(models.Model):
     email = models.EmailField(unique=True)
     nome = models.CharField(max_length=100)
     cpf = models.CharField(max_length=11, unique=True)
+    data_de_nascimento = models.DateField()
     senha = models.CharField(max_length=255)
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
 
+    @property
+    def idade(self):
+        return int((datetime.now().date() - self.data_de_nascimento).days / 365.25)
+
     def clean(self):
-        #self.clean_cpf()
-        pass
+        self.clean_cpf()
 
     def clean_cpf(self):
         # if not match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', self.cpf):

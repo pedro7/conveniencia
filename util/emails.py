@@ -2,8 +2,11 @@ from django.core.mail import EmailMessage
 
 from apps.produtos.models import Produto
 
-from .relatorios import get_relatorio_ultima_compra, get_relatorio_mudanca_preco_produto, get_relatorio_consumo_colaborador
-from .colaboradores import get_colaboradores_compraram_produto_desde_referencia_passada
+from .colaboradores import \
+    get_colaboradores_compraram_produto_desde_referencia_passada
+from .relatorios import (get_relatorio_consumo_colaborador,
+                         get_relatorio_mudanca_preco_produto,
+                         get_relatorio_ultima_compra)
 
 
 def enviar_email_ultima_compra(colaborador):
@@ -18,14 +21,16 @@ def enviar_email_ultima_compra(colaborador):
 def enviar_email_compra_ingresso(colaborador, quantidade):
     email = EmailMessage(
         'Compra Ingresso SCI',
-        to=[colaborador.email, 'pedrogabrielappel@gmail.com']
+        f'Quantidade: {quantidade}',
+        to=[colaborador.email]
     )
     email.send()
 
 def enviar_email_compra_roupa(colaborador, quantidade):
     email = EmailMessage(
-        'Compra Roupa SCI',
-        to=[colaborador.email, 'pedrogabrielappel@gmail.com']
+        'Compra Vestimenta SCI',
+        f'Quantidade: {quantidade}',
+        to=[colaborador.email]
     )
     email.send()
 

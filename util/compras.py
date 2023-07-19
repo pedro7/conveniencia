@@ -18,14 +18,12 @@ def cadastrar_compra(colaborador, produtos):
             'preco_unitario': produto.preco
         }
         compra.produtos.add(produto, through_defaults=through_defaults)
+        if produto.tipo == 'normal' or produto.tipo == 'alcoolico':
+            diminuir_estoque(produto, quantidade)
         if produto.tipo == 'ingresso':
             enviar_email_compra_ingresso(colaborador, quantidade)
-        else:
-            diminuir_estoque(produto, quantidade)
-        if produto.tipo == 'roupa':
+        if produto.tipo == 'vestimenta':
             enviar_email_compra_roupa(colaborador, quantidade)
-        else:
-            diminuir_estoque(produto, quantidade)
 
 def get_total_vendido_hoje():
     total_vendido_hoje = 0
