@@ -16,9 +16,13 @@ class Produto(models.Model):
     ]
     nome = models.CharField(max_length=50)
     codigo_barras = models.CharField(max_length=13, unique=True)
-    preco = models.DecimalField(max_digits=4, decimal_places=2)
+    preco = models.DecimalField(max_digits=5, decimal_places=2)
     situacao = models.CharField(max_length=7, choices=SITUACAO_CHOICES, default='ativo')
     tipo = models.CharField(max_length=10, choices=TIPO_CHOICES, default='normal')
+
+    @property
+    def codigo_barras_formatado(self):
+        return f'{self.codigo_barras[0]} {self.codigo_barras[1:7]} {self.codigo_barras[7:]}'
 
     def clean(self):
         self.clean_codigo_barras()

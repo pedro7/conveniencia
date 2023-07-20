@@ -2,8 +2,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.views.generic import CreateView, ListView, UpdateView, View, FormView
-from .forms import UsuarioSenhaForm
+from django.views.generic import (CreateView, FormView, ListView, UpdateView,
+                                  View)
+
+from .forms import UserCreateForm, UsuarioSenhaForm
 
 
 class UsuarioListView(UserPassesTestMixin, ListView):
@@ -17,7 +19,7 @@ class UsuarioListView(UserPassesTestMixin, ListView):
 
 class UsuarioCreateView(UserPassesTestMixin, CreateView):
     model = User
-    fields = ['username', 'email', 'first_name', 'last_name', 'password']
+    form_class = UserCreateForm
     template_name = 'base/cadastrar.html'
     success_url = '/usuarios/'
 

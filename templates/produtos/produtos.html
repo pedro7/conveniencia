@@ -20,7 +20,7 @@
             {% for produto in produtos %}
                 <tr>
                     <td>{{ produto.nome }}</td>
-                    <td>{{ produto.codigo_barras }}</td>
+                    <td>{{ produto.codigo_barras_formatado }}</td>
                     <td>R$ {{ produto.preco }}</td>
                     <td>{{ produto.get_tipo_display }}</td>
                     <td>

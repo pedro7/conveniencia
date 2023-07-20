@@ -6,6 +6,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 from apps.estoque.models import Estoque
 from util.emails import enviar_email_mudanca_preco_produto
 
+from .forms import ProdutoForm
 from .models import Produto
 
 
@@ -17,7 +18,7 @@ class ProdutoListView(LoginRequiredMixin, ListView):
 
 class ProdutoCreateView(LoginRequiredMixin, CreateView):
     model = Produto
-    fields = ['nome', 'codigo_barras', 'preco', 'tipo']
+    form_class = ProdutoForm
     template_name = 'base/cadastrar.html'
     success_url = '/produtos/'
 
@@ -29,7 +30,7 @@ class ProdutoCreateView(LoginRequiredMixin, CreateView):
 
 class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
     model = Produto
-    fields = '__all__'
+    form_class = ProdutoForm
     template_name = 'base/editar.html'
     success_url = '/produtos/'
     slug_field = 'codigo_barras'

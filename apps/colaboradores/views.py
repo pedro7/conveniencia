@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 from django.views.generic import (CreateView, FormView, ListView, UpdateView,
                                   View)
 
-from .forms import ColaboradorSenhaForm
+from .forms import (ColaboradorCreateForm, ColaboradorUpdateForm,
+                    ColaboradorUpdateSenhaForm)
 from .models import Colaborador
 
 
@@ -16,7 +17,7 @@ class ColaboradorListView(LoginRequiredMixin, ListView):
 
 class ColaboradorCreateView(LoginRequiredMixin, CreateView):
     model = Colaborador
-    fields = ['login', 'email', 'nome', 'cpf', 'data_de_nascimento', 'senha']
+    form_class = ColaboradorCreateForm
     template_name = 'base/cadastrar.html'
     success_url = '/colaboradores/'
 
@@ -27,7 +28,7 @@ class ColaboradorCreateView(LoginRequiredMixin, CreateView):
 
 class ColaboradorUpdateView(LoginRequiredMixin, UpdateView):
     model = Colaborador
-    fields = ['login', 'email', 'nome', 'cpf', 'data_de_nascimento']
+    form_class = ColaboradorUpdateForm
     template_name = 'base/editar.html'
     success_url = '/colaboradores/'
     slug_field = 'login'
@@ -35,7 +36,7 @@ class ColaboradorUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ColaboradorUpdateSenhaView(LoginRequiredMixin, FormView):
-    form_class = ColaboradorSenhaForm
+    form_class = ColaboradorUpdateSenhaForm
     template_name = 'base/editar.html'
     success_url = '/colaboradores/'
     slug_field = 'login'

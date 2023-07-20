@@ -20,6 +20,10 @@ class Colaborador(models.Model):
     @property
     def idade(self):
         return int((datetime.now().date() - self.data_de_nascimento).days / 365.25)
+    
+    @property
+    def cpf_formatado(self):
+        return f'{self.cpf[:3]}.{self.cpf[3:6]}.{self.cpf[6:9]}-{self.cpf[9:]}'
 
     def clean(self):
         self.clean_cpf()

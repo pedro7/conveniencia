@@ -4,9 +4,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
         nav = document.getElementById(navId),
         bodypd = document.getElementById(bodyId),
         headerpd = document.getElementById(headerId)
+
+        var sidebar = localStorage.getItem('sidebar');
+        if (sidebar === null) {
+            localStorage.setItem('sidebar', 'closed');
+        }
+        else if (sidebar === 'open') {
+            nav.classList.add('l-navbar-fast')
+            nav.classList.remove('l-navbar')
+            nav.classList.toggle('show')
+            toggle.classList.toggle('bx-x')
+            bodypd.classList.toggle('body-pd')
+            headerpd.classList.toggle('body-pd')
+        }
+    
     
         if (toggle && nav && bodypd && headerpd) {
             toggle.addEventListener('click', () => {
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === 'open') {
+                localStorage.setItem('sidebar', 'closed');
+            }
+            else {
+                localStorage.setItem('sidebar', 'open');
+            }
             nav.classList.toggle('show')
             toggle.classList.toggle('bx-x')
             bodypd.classList.toggle('body-pd')

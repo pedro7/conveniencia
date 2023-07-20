@@ -1,5 +1,15 @@
 from django import forms
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.models import User
+
+
+class UserCreateForm(forms.ModelForm):
+    password = forms.CharField(label='Senha', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+
 
 
 class UsuarioSenhaForm(forms.Form):
