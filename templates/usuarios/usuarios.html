@@ -5,6 +5,8 @@
 {% block main %}
     <h1>Usuários</h1>
     <a href="{% url 'cadastrar_usuario' %}">Cadastrar Usuário</a>
+    <br>
+    <input type="text" id="searchInput" placeholder="Filtrar por usuário" style="display: block; margin: 0 auto;">
     <table>
         <thead>
             <tr>
@@ -20,7 +22,7 @@
         </thead>
         <tbody>
             {% for usuario in usuarios %}
-                <tr>
+                <tr data-data="{{ usuario.username }}">
                     <td>{{ usuario.username }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>

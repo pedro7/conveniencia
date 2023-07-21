@@ -2,9 +2,12 @@ from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
+from apps.colaboradores.models import Colaborador
+
 
 def visualizar_emails(request: HttpRequest):
-    return render(request, 'emails/emails.html')
+    colaboradores = Colaborador.objects.all()
+    return render(request, 'emails/emails.html', {'colaboradores': colaboradores})
 
 def enviar_email(request: HttpRequest):
     subject = request.POST['assunto']

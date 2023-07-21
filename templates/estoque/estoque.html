@@ -6,6 +6,9 @@
 
 {% block main %}
     <h1>Estoque</h1>
+    <br>
+    <input type="text" id="searchInput" placeholder="Filtrar por produto" style="display: block; margin: 0 auto;">
+
     <table>
         <thead>
             <tr>
@@ -17,7 +20,7 @@
         </thead>
         <tbody>
             {% for estoque in estoques %}
-                <tr>
+                <tr data-data="{{ estoque.produto.nome }}">
                     <td>{{ estoque.produto.nome }}</td>
                     <td>{{ estoque.quantidade }}</td>
                     <td>

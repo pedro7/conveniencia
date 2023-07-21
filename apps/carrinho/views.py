@@ -42,7 +42,7 @@ class RemoverProdutoView(View):
 
 
 class EsvaziarCarrinhoView(View):
-    def post(self, request):
+    def get(self, request):
         esvaziar_carrinho(request)
         return redirect('visualizar_carrinho')
 
@@ -69,7 +69,8 @@ class ConsultarGastoMensalView(View):
         context = {
             'carrinho': get_carrinho(request),
             'gasto_mensal': get_gasto_referencia_atual_colaborador(colaborador),
-            'gasto_referencia_passada': get_gasto_referencia_passada_colaborador(colaborador)
+            'gasto_referencia_passada': get_gasto_referencia_passada_colaborador(colaborador),
+            'total': get_total_carrinho(get_carrinho(request))
         }
         enviar_email_detalhes_refencias(colaborador)
         return render(request, 'carrinho/carrinho.html', context)

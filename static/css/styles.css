@@ -22,7 +22,6 @@ table {
 }
 
 thead {
-  position: sticky;
   top: 0;
   background-color: #36304A;
   /* background-color: #4A2D60; */
@@ -70,47 +69,6 @@ td {
 	padding-right: 40px;
 	padding-bottom: 10px;
 	padding-left: 40px;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  margin: 15% auto;
-  width: 40vw;
-  height: 50vh;
-  border-radius: 25px;
-  text-align: center;
-  background-color: #FFFFFF;
-  color: #5a5a5a;
-  overflow: hidden;
-  border: 1px solid #888;
-  background: rgba(black, .3);
-  box-shadow: 0 0 30px 10px rgba(black, .3);
-}
-
-.modal-head {
-  background-color: #36304A;
-  color: #FFFFFF;
-  text-align: left;
-}
-
-.modal-foot form {
-  display: block;
-}
-
-.modal-foot input {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .erro {

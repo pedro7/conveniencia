@@ -5,6 +5,8 @@
 {% block main %}
     <h1>Produtos</h1>
     <a href="{% url 'cadastrar_produto' %}">Cadastrar Produto</a>
+    <br>
+    <input type="text" id="searchInput" placeholder="Filtrar por nome" style="display: block; margin: 0 auto;">
     <table>
         <thead>
             <tr>
@@ -18,7 +20,7 @@
         </thead>
         <tbody>
             {% for produto in produtos %}
-                <tr>
+                <tr data-data="{{ produto.nome }}">
                     <td>{{ produto.nome }}</td>
                     <td>{{ produto.codigo_barras_formatado }}</td>
                     <td>R$ {{ produto.preco }}</td>
@@ -44,8 +46,5 @@
                 </tr>
             {% endfor %}
         </tbody>
-        <tfoot>
-
-        </tfoot>
     </table>
 {% endblock %}

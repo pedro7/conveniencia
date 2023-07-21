@@ -5,12 +5,15 @@
 {% block main %}
     <h1>Gerar Relatórios</h1>
     <div class="form-container">
+        <h2>Total Mensal:</h2>
         <form method="get" action="{% url 'gerar_total_mensal' %}">
             {% csrf_token %}
             <input type="submit" value="Gerar total mensal">
         </form>
     </div>
+    <br><br><br>
     <div class="form-container">
+        <h2>Consumo Geral:</h2>
         <form method="get" action="{% url 'gerar_consumo_geral' %}">
             {% csrf_token %}
             <label for="data">De:</label>

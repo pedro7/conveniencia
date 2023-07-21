@@ -5,6 +5,8 @@
 {% block main %}
     <h1>Colaboradores</h1>
     <a href="{% url 'cadastrar_colaborador' %}">Cadastrar Colaborador</a>
+    <br>
+    <input type="text" id="searchInput" placeholder="Filtrar por nome" style="display: block; margin: 0 auto;">
     <table>
         <thead>
             <tr>
@@ -20,7 +22,7 @@
         </thead>
         <tbody>
             {% for colaborador in colaboradores %}
-                <tr>
+                <tr data-data="{{ colaborador.nome }}">
                     <td>{{ colaborador.nome }}</td>
                     <td>{{ colaborador.email }}</td>
                     <td>{{ colaborador.cpf_formatado }}</td>

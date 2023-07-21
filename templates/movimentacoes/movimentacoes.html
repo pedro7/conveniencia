@@ -4,6 +4,8 @@
 
 {% block main %}
     <h1>Movimentações</h1>
+    <br>
+    <input type="text" id="searchInput" placeholder="Filtrar por produto" style="display: block; margin: 0 auto;">
     <table>
         <thead>
             <tr>
@@ -16,7 +18,7 @@
         </thead>
         <tbody>
             {% for movimentacao in movimentacoes %}
-                <tr>
+                <tr data-data="{{ movimentacao.produto.nome }}">
                     <td>{{ movimentacao.produto.nome }}</td>
                     <td>{{ movimentacao.usuario.username }}</td>
                     <td>{{ movimentacao.quantidade }}</td>

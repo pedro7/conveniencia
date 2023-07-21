@@ -1,3 +1,11 @@
+function scrollToBottom() {
+    const table = document.getElementById("myTable");
+    table.scrollTop = table.scrollHeight;
+}
+scrollToBottom()
+
+
+
 var finalizar_btn = document.getElementById('finalizar_btn');
 var consultar_btn = document.getElementById('consultar_btn');
 
@@ -42,3 +50,5 @@ window.onclick = function(event) {
         total_gasto_modal.style.display = 'none'
     }
   };
+
+

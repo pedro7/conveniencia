@@ -4,6 +4,8 @@
 
 {% block main %}
     <h1>Compras</h1>
+    <br>
+    <input type="text" id="searchInput" placeholder="Filtrar por colaborador" style="display: block; margin: 0 auto;">
     <table>
         <thead>
             <tr>
@@ -16,7 +18,7 @@
         </thead>
         <tbody>
             {% for compra, valor in compras_valores.items %}
-                <tr>
+                <tr data-data="{{ compra.colaborador.nome }}">
                     <td>{{ compra.colaborador.nome }}</td>
                     <td>{{ compra.data }}</td>
                     <td>R$ {{ valor }}</td>

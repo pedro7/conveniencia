@@ -17,7 +17,7 @@
         }
 
         main {
-            max-width: 800px;
+            max-width: 80vw;
             margin: 0 auto;
             background-color: #fff;
             padding: 20px;
@@ -50,6 +50,11 @@
             padding: 12px;
         }
 
+        .table-container {
+            max-height: 60vh; /* Set the desired maximum height for the table container */
+            overflow-y: auto; /* Add vertical scrollbars when the content overflows */
+            }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -71,7 +76,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
 
         #finalizar_btn,
@@ -126,10 +130,35 @@
         h1 {
             margin-top: 0;
         }
+
+        /* Add the following CSS to the existing styles */
+        .custom-btn {
+        background-color: #36304A;
+        color: #fff;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 18px;
+        text-decoration: none; /* Remove the default underline */
+        font-weight: bold;
+        }
+
+        .custom-btn:hover {
+        background-color: #1e1a2a; /* Change the background color on hover if desired */
+        }
+
+        .custom-btn:focus {
+        outline: none; /* Remove the default focus outline */
+        }
+
+/* Apply any additional styles as needed */
+
     </style>
 </head>
 <body>
     <main>
+        <h1>Carrinho - Conveniência SCI</h1>
         <form method="post" action="{% url 'adicionar_produto' %}">
             {% csrf_token %}
             <input type="text" name="codigo_barras" maxlength="13" placeholder="Código de Barras">
@@ -140,11 +169,11 @@
                 {{ message }}
             </div>
         {% endfor %}
-        <div class="table-container">
+        <div class="table-container" id="myTable">
             <table>
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>Produto</th>
                         <th>Preço</th>
                         <th>Remover</th>
                     </tr>
@@ -153,7 +182,7 @@
                     {% for produto in carrinho %}
                         <tr>
                             <td>{{ produto.nome }}</td>
-                            <td>{{ produto.preco }}</td>
+                            <td>R$ {{ produto.preco }}</td>
                             <td>
                                 <a href="{% url 'remover_produto' forloop.counter %}">
                                     <i class='bx bxs-trash'></i>
@@ -165,20 +194,16 @@
                 <tfoot>
                     <tr>
                         <td>Total</td>
-                        <td>{{ total }}</td>
-                        <td>
-                            <form method="post" action="{% url 'esvaziar_carrinho' %}">
-                                {% csrf_token %}
-                                <input type="submit" value="Esvaziar">
-                            </form>
-                        </td>
+                        <td>R$ {{ total }}</td>
+                        <td></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
         <div class="btn">
             <button id="finalizar_btn">Finalizar Compra</button>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <a href="{% url 'esvaziar_carrinho' %}" class="custom-btn">Esvaziar Carrinho</a>
+
             <button id="consultar_btn">Consultar Gastos</button>
         </div>
         <div class="modal" id="finalizar_modal">
@@ -207,8 +232,8 @@
             <div class="modal" id="total_gasto_modal" style="display: block;">
                 <div class="modal-content">
                     <span class="close" id="fechar_modal3">&times;</span><br><br>
-                    <h1>Gasto na referência atual: {{ gasto_mensal }}</h1>
-                    <h1>Gasto na referência passada: {{ gasto_referencia_passada }}</h1>
+                    <h1>Gasto na referência atual: R$ {{ gasto_mensal }}</h1>
+                    <h1>Gasto na referência passada: R$ {{ gasto_referencia_passada }}</h1>
                 </div>
             </div>
         {% endif %}
