@@ -229,14 +229,27 @@
             </div>
         </div>
         {% if gasto_mensal %}
-            <div class="modal" id="total_gasto_modal" style="display: block;">
-                <div class="modal-content">
-                    <span class="close" id="fechar_modal3">&times;</span><br><br>
-                    <h1>Gasto na referência atual: R$ {{ gasto_mensal }}</h1>
-                    <h1>Gasto na referência passada: R$ {{ gasto_referencia_passada }}</h1>
-                </div>
-            </div>
-        {% endif %}
+    <div class="modal" id="total_gasto_modal" style="display: block;">
+        <div class="modal-content">
+            <span class="close" id="fechar_modal3">&times;</span><br><br>
+            <h1>Gasto na referência atual: R$ {{ gasto_mensal }}</h1>
+            <h1>Gasto na referência passada: R$ {{ gasto_referencia_passada }}</h1>
+        </div>
+    </div>
+    <script>
+        // Function to close the modal after 3 seconds
+        function closeModal() {
+            var modal = document.getElementById("total_gasto_modal");
+            modal.style.display = "none";
+        }
+
+        // Set a timeout to close the modal after 3 seconds (3000 milliseconds)
+        setTimeout(closeModal, 3000);
+
+        // Optionally, you can add an event listener to close the modal if the close button is clicked
+        document.getElementById("fechar_modal3").addEventListener("click", closeModal);
+    </script>
+{% endif %}
     </main>
     <script src="{% static 'js/carrinho.js' %}"></script>
 </body>
