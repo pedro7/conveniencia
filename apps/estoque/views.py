@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView, ListView
 
@@ -41,6 +42,9 @@ class DiminuirQuantidadeView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         estoque = Estoque.objects.get(pk=self.kwargs['pk'])
         estoque.quantidade -= form.cleaned_data['quantidade']
+        if estoque.quantidade < 0:
+            messages.error(self.request, 'Não é possível mais produtos do que existem.')
+            return self.form_invalid(form)
         estoque.save()
 
         Movimentacao.objects.create(

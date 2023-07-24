@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -70,6 +71,9 @@ class UsuarioUpdateSenhaView(UserPassesTestMixin, FormView):
 class UsuarioUpdateAdministradorView(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         usuario = User.objects.get(username=kwargs['username'])
+        if usuario == request.user:
+            messages.error(self.request, 'Não é possível remover permissões do seu próprio usuário.')
+            return redirect('visualizar_usuarios')
         usuario.is_superuser = not usuario.is_superuser
         usuario.save()
         return redirect('visualizar_usuarios')
@@ -80,6 +84,9 @@ class UsuarioUpdateAdministradorView(UserPassesTestMixin, View):
 class UsuarioUpdateSituacaoView(UserPassesTestMixin, View):
     def get(self, request, *args, **kwargs):
         usuario = User.objects.get(username=kwargs['username'])
+        if usuario == request.user:
+            messages.error(self.request, 'Não é possível inativar seu próprio usuário.')
+            return redirect('visualizar_usuarios')
         usuario.is_active = not usuario.is_active
         usuario.save()
         return redirect('visualizar_usuarios')

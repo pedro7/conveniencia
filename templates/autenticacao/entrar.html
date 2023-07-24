@@ -18,6 +18,11 @@
 						<h3>ENTRAR</h3>
 						<input type="text" name="username" placeholder="USUÁRIO">
 						<input type="password" name="password" placeholder="SENHA">
+						<div class="errorlist">
+							{% for message in messages %}
+								{{ message }}
+							{% endfor %}
+						</div>
 						<button class="submit">ENTRAR</button>
 					</form>
 				</div>

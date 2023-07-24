@@ -118,3 +118,8 @@ background: linear-gradient(to right, #24243e, #302b63, #0f0c29); /* W3C, IE 10+
   font-size: 19px;
   font-weight: 400;
 }
+
+.errorlist {
+  color: #ff0000;
+  margin-top: 5px;
+}

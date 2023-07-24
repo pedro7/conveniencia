@@ -11,6 +11,9 @@ class ColaboradorCreateForm(forms.ModelForm):
     class Meta:
         model = Colaborador
         fields = ['login', 'email', 'nome', 'cpf', 'data_de_nascimento', 'senha']
+        widgets = {
+            'senha': forms.PasswordInput()
+        }
         labels = {
             'login': 'Login',
             'email': 'Email',

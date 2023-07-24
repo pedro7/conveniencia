@@ -26,11 +26,11 @@ def get_relatorio_ultima_compra():
     table_headers = ['Produto', 'Quantidade', 'Preço Unitário']
 
     # Set up the table rows.
-    table_rows = [[compra_produto.produto.nome, str(compra_produto.quantidade), str(compra_produto.preco_unitario)] for compra_produto in compra_produtos]
+    table_rows = [[compra_produto.produto.nome, str(compra_produto.quantidade), f'R$ {compra_produto.preco_unitario}'] for compra_produto in compra_produtos]
 
     # Define the table style.
     style = TableStyle([
-    ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),  # Header background color
+    ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),  # Header background color
     ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
     ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
@@ -113,7 +113,7 @@ def get_relatorio_consumo_colaborador(colaborador):
     table_data_atual = [table_headers] + data_atual
     table_atual = Table(table_data_atual, repeatRows=1)
     table_atual.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
@@ -128,7 +128,7 @@ def get_relatorio_consumo_colaborador(colaborador):
     table_data_passada = [table_headers] + data_passada
     table_passada = Table(table_data_passada, repeatRows=1)
     table_passada.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
@@ -155,7 +155,7 @@ def create_produtos_table(compra_produtos):
 
     produtos_table = Table(table_data)
     produtos_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
@@ -202,7 +202,7 @@ def get_relatorio_consumo_geral(request):
         table_data = [table_headers] + data
         table = Table(table_data, repeatRows=1)
         table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
             ('BACKGROUND', (0, 1), (-1, -1), colors.white),
             ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
@@ -268,7 +268,7 @@ def get_relatorio_mudanca_preco_produto(produto, preco_novo, preco_antigo):
     table_data = [table_headers] + data
     table = Table(table_data, repeatRows=1)
     table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('BACKGROUND', (0, 1), (-1, -1), colors.white),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),

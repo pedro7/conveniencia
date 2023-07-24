@@ -36,7 +36,7 @@ class AdicionarProdutoView(View):
 
 
 class RemoverProdutoView(View):
-    def post(self, request: HttpRequest, posicao):
+    def get(self, request: HttpRequest, posicao):
         remover_do_carrinho(request, posicao)
         return redirect('visualizar_carrinho')
 

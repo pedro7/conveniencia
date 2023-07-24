@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views import View
@@ -23,9 +26,17 @@ class ProdutoCreateView(LoginRequiredMixin, CreateView):
     success_url = '/produtos/'
 
     def form_valid(self, form):
-        produto = form.save()
+        produto = form.save(commit=False)
+
+        if produto.preco <= 0:
+            messages.error(self.request, 'Preço deve ser maior que zero.')
+            return self.form_invalid(form)
+        
+        produto.save()
         Estoque.objects.create(produto=produto)
+
         return redirect('visualizar_produtos')
+
 
 
 class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
@@ -37,7 +48,11 @@ class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'codigo_barras'
 
     def form_valid(self, form):
-        enviar_email_mudanca_preco_produto(self.get_object().pk, form.cleaned_data['preco'], self.get_object().preco)
+        if Decimal(form.cleaned_data['preco']) <= Decimal('0'):
+            messages.error(self.request, 'Preço deve ser maior que 0.')
+            return self.form_invalid(form)
+        if Decimal(form.cleaned_data['preco']) != self.get_object().preco:
+            enviar_email_mudanca_preco_produto(self.get_object().pk, form.cleaned_data['preco'], self.get_object().preco)
         return super().form_valid(form)
 
 

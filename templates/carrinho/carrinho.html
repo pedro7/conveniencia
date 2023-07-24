@@ -161,7 +161,7 @@
         <h1>Carrinho - Conveniência SCI</h1>
         <form method="post" action="{% url 'adicionar_produto' %}">
             {% csrf_token %}
-            <input type="text" name="codigo_barras" maxlength="13" placeholder="Código de Barras">
+            <input type="text" name="codigo_barras" maxlength="15" placeholder="Código de Barras">
             <input type="submit" value="Adicionar no Carrinho">
         </form>
         {% for message in messages %}

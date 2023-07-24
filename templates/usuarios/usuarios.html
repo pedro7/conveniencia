@@ -7,6 +7,12 @@
     <a href="{% url 'cadastrar_usuario' %}">Cadastrar Usuário</a>
     <br>
     <input type="text" id="searchInput" placeholder="Filtrar por usuário" style="display: block; margin: 0 auto;">
+    <div class="errorlist" style="text-align: center;">
+        {% for message in messages %}
+        <br>
+            {{ message }}
+        {% endfor %}
+    </div>
     <table>
         <thead>
             <tr>
